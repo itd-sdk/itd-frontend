@@ -1,7 +1,10 @@
+from os import listdir, remove
+from subprocess import run, PIPE
+from datetime import datetime
+
 from requests import get
 from bs4 import BeautifulSoup
-from subprocess import run, PIPE
-from os import listdir, remove
+
 
 print('clear old scripts')
 for file in listdir('raw'):
@@ -36,3 +39,6 @@ print('scripts loaded           ')
 print('\ndecompile', end='')
 run(['npx', '@wakaru/cli', 'unminify', 'raw/*.js', '-o', 'decompiled/', '-f'], check=True, shell=True, stdout=PIPE, stderr=PIPE)
 print('\rdecompiled')
+
+with open('last_check.txt', 'w') as fl:
+    fl.write(datetime.now().isoformat())
