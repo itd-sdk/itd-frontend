@@ -15,7 +15,7 @@ if '-s' in argv:
     update()
 
 schedule = Scheduler()
-schedule.cyclic(timedelta(hours=2), update)
+schedule.cyclic(timedelta(minutes=30), update)
 
 while True:
     schedule.exec_jobs()
