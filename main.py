@@ -5,6 +5,7 @@ from subprocess import run, PIPE
 from datetime import datetime
 from re import search, findall, sub as re_sub, compile as re_compile
 from collections import Counter
+from urllib.parse import quote
 import glob as glob_module
 
 from requests import Session
@@ -13,9 +14,40 @@ from svg_extractor import extract_svgs
 
 session = Session()
 
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0'
+
+
+def _get_jhash(b: int) -> int:
+    x = 123456789
+    k = 0
+    for i in range(1677696):
+        x = ((x + b) ^ (x + (x % 3) + (x % 17) + b) ^ i) % 16776960
+        if x % 117 == 0:
+            k = (k + 1) % 1111
+    return k
+
+
+def _solve_ddos_guard(resp):
+    if '<html>' not in resp.text[:500] or 'get_jhash' not in resp.text:
+        return False
+    js_p = session.cookies.get('__js_p_')
+    if not js_p:
+        return False
+    code = int(js_p.split(',')[0])
+    jhash = _get_jhash(code)
+    print(f'DDoS-Guard challenge: code={code} -> jhash={jhash}')
+    session.cookies.set('__jhash_', str(jhash), domain='xn--d1ah4a.com', path='/')
+    session.cookies.set('__jua_', quote(UA, safe=''), domain='xn--d1ah4a.com', path='/')
+    return True
+
 
 def get(url):
-    return session.get(url)
+    resp = session.get(url, headers={'User-Agent': UA})
+    for _ in range(3):
+        if not _solve_ddos_guard(resp):
+            break
+        resp = session.get(url, headers={'User-Agent': UA})
+    return resp
 
 
 def clear_dir(path):
