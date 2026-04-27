@@ -33,13 +33,13 @@ const s = {
   retryButton: Y,
 };
 
-export const Hashtag = ({ name: f }) => {
+export const Hashtag = ({ name }) => {
   const [p, i] = d([]);
   const [C, g] = d(true);
   const [y, N] = d(null);
   const [d, M] = d(null);
   const [h, x] = d(false);
-  const o = f ? decodeURIComponent(f) : "";
+  const o = name ? decodeURIComponent(name) : "";
 
   const m = K((t) => t._lastLikeUpdate);
 
@@ -47,16 +47,16 @@ export const Hashtag = ({ name: f }) => {
     if (!m) {
       return;
     }
-    const { postId: t, myReaction: a, totalDelta: n } = m;
+    const { postId, myReaction, totalDelta } = m;
     i((P) =>
       P.map((c) =>
-        c.id === t
+        c.id === postId
           ? {
               ...c,
               reactions: {
                 ...c.reactions,
-                myReaction: a,
-                total: Math.max(0, c.reactions.total + n),
+                myReaction: myReaction,
+                total: Math.max(0, c.reactions.total + totalDelta),
               },
             }
           : c

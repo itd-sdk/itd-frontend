@@ -91,12 +91,12 @@ const c = {
   divider: Pe,
 };
 
-function be({ isOpen: t, onClose: h }) {
+function be({ isOpen, onClose }) {
   const [u, i] = d([]);
   const [d, o] = d(true);
 
   y_1(() => {
-    if (!t) {
+    if (!isOpen) {
       return;
     }
     let a = false;
@@ -117,12 +117,12 @@ function be({ isOpen: t, onClose: h }) {
     return () => {
       a = true;
     };
-  }, [t]);
+  }, [isOpen]);
 
-  return t
+  return isOpen
     ? a9(
         a(M_1, {
-          onClose: h,
+          onClose: onClose,
           title: "Что нового",
           size: "default",
           children: a("div", {
@@ -174,41 +174,34 @@ function be({ isOpen: t, onClose: h }) {
     : null;
 }
 
-const b = ({
-  href: t,
-  icon: h,
-  children: u,
-  badge: i,
-  onActiveClick: d,
-  isActive: o = false,
-}) =>
+const b = ({ href, icon, children, badge, onActiveClick, isActive = false }) =>
   a(l_2, {
-    path: t,
-    children: ({ matches: a }) => {
-      const r = a || o;
-      return a("a", {
-        href: t,
+    path: href,
+    children: ({ matches }) => {
+      const r = matches || isActive;
+      return matches("a", {
+        href: href,
         className: `${n.navItem} ${r ? n.active : ""}`,
         onClick: (g) => {
-          if (r && d) {
+          if (r && onActiveClick) {
             g.preventDefault();
-            d();
+            onActiveClick();
           }
         },
         children: [
-          a("span", {
+          matches("span", {
             className: n.iconWrapper,
             children: [
-              h,
-              i !== undefined &&
-                i > 0 &&
-                a("span", {
+              icon,
+              badge !== undefined &&
+                badge > 0 &&
+                matches("span", {
                   className: n.badge,
-                  children: i > 99 ? "99+" : i,
+                  children: badge > 99 ? "99+" : badge,
                 }),
             ],
           }),
-          a("span", { children: u }),
+          matches("span", { children: children }),
         ],
       });
     },
@@ -228,7 +221,7 @@ export const Aside = () => {
   const d = L();
   const o = M_1_1();
   const a = a1();
-  const { initialize: r, disconnectSSE: g } = l();
+  const { initialize, disconnectSSE } = l();
   const [m, N] = d(false);
   const [w, I] = d(false);
   const l = af();
@@ -239,13 +232,13 @@ export const Aside = () => {
 
   y_1(() => {
     if (d) {
-      r();
+      initialize();
     }
 
     return () => {
-      g();
+      disconnectSSE();
     };
-  }, [d, r, g]);
+  }, [d, initialize, disconnectSSE]);
 
   y_1(() => {
     C();
@@ -272,107 +265,106 @@ export const Aside = () => {
       : false;
   }, [t.url, o?.username]);
 
-  return (
-    L ||
-    a("aside", {
-      className: n.aside,
-      children: [
-        a("div", {
-          className: n.asideTop,
-          children: [
-            a("div", {
-              className: n.asideBrand,
-              children: [
-                a(I_1, {}),
-                a("button", {
-                  className: n.asideBrandVersion,
-                  onClick: () => N(true),
-                  title: "Что нового",
-                  children: "v1.1",
-                }),
-              ],
-            }),
-            a("nav", {
-              className: n.nav,
-              children: [
-                a(v, {
-                  href: "/",
-                  icon: u ? a(aj, {}) : a(I, {}),
-                  onActiveClick: k,
-                  children: "Лента",
-                }),
-                a(v, {
-                  href: "/search",
-                  icon: a(I_4, {}),
-                  children: "Поиск",
-                }),
-                a(l_2, {
-                  path: "/event",
-                  children: ({ matches: s }) =>
-                    a("a", {
-                      href: l.active && l.url ? l.url : "/event",
-                      target: l.active && l.url ? "_blank" : undefined,
-                      rel:
-                        l.active && l.url ? "noopener noreferrer" : undefined,
-                      className: `${n.portalButton} ${
-                        l.active ? n.portalActive : ""
-                      } ${s ? n.active : ""}`,
-                      title: "Ивент",
-                      children: [
-                        a("img", {
-                          src: l.active
-                            ? "/assets/portal/portal-active.gif"
-                            : "/assets/portal/portal-inactive.png",
-                          alt: "Ивент",
-                          className: n.portalImage,
-                        }),
-                        a("span", { children: "Ивент" }),
-                      ],
-                    }),
-                }),
-                a(v, {
-                  href: "/notifications",
-                  icon: a(I_3, {}),
-                  badge: a,
-                  children: "Уведомления",
-                }),
-                a(b, {
-                  href: $,
-                  icon: a(a_1, {}),
-                  isActive: O,
-                  children: "Профиль",
-                }),
-              ],
-            }),
-          ],
-        }),
-        a("div", {
-          className: n.asideBottom,
-          children: [
-            !o?.subscription?.isActive &&
-              a("button", {
-                className: n.logoutButton,
-                onClick: () => I(true),
+  return L
+    ? null
+    : a("aside", {
+        className: n.aside,
+        children: [
+          a("div", {
+            className: n.asideTop,
+            children: [
+              a("div", {
+                className: n.asideBrand,
                 children: [
-                  a("span", { children: "⭐" }),
-                  a("span", { children: "ИТД НУКСТА" }),
+                  a(I_1, {}),
+                  a("button", {
+                    className: n.asideBrandVersion,
+                    onClick: () => N(true),
+                    title: "Что нового",
+                    children: "v1.1",
+                  }),
                 ],
               }),
-            a("button", {
-              className: n.logoutButton,
-              onClick: W,
-              children: [
-                a(I_2, { size: 20 }),
-                a("span", { children: "Выйти" }),
-              ],
-            }),
-          ],
-        }),
-        a(be, { isOpen: m, onClose: () => N(false) }),
-        a(ac_1, { isOpen: w, onClose: () => I(false) }),
-      ],
-    })
-  );
+              a("nav", {
+                className: n.nav,
+                children: [
+                  a(v, {
+                    href: "/",
+                    icon: u ? a(aj, {}) : a(I, {}),
+                    onActiveClick: k,
+                    children: "Лента",
+                  }),
+                  a(v, {
+                    href: "/search",
+                    icon: a(I_4, {}),
+                    children: "Поиск",
+                  }),
+                  a(l_2, {
+                    path: "/event",
+                    children: ({ matches }) =>
+                      a("a", {
+                        href: l.active && l.url ? l.url : "/event",
+                        target: l.active && l.url ? "_blank" : undefined,
+                        rel:
+                          l.active && l.url ? "noopener noreferrer" : undefined,
+                        className: `${n.portalButton} ${
+                          l.active ? n.portalActive : ""
+                        } ${matches ? n.active : ""}`,
+                        title: "Ивент",
+                        children: [
+                          a("img", {
+                            src: l.active
+                              ? "/assets/portal/portal-active.gif"
+                              : "/assets/portal/portal-inactive.png",
+                            alt: "Ивент",
+                            className: n.portalImage,
+                          }),
+                          a("span", { children: "Ивент" }),
+                        ],
+                      }),
+                  }),
+                  a(v, {
+                    href: "/notifications",
+                    icon: a(I_3, {}),
+                    badge: a,
+                    children: "Уведомления",
+                  }),
+                  a(b, {
+                    href: $,
+                    icon: a(a_1, {}),
+                    isActive: O,
+                    children: "Профиль",
+                  }),
+                ],
+              }),
+            ],
+          }),
+          a("div", {
+            className: n.asideBottom,
+            children: [
+              !o?.subscription?.isActive &&
+                a("button", {
+                  className: n.logoutButton,
+                  onClick: () => I(true),
+                  children: [
+                    a("span", { children: "⭐" }),
+                    a("span", { children: "ИТД НУКСТА" }),
+                  ],
+                }),
+              a("button", {
+                className: n.logoutButton,
+                onClick: W,
+                children: [
+                  a(I_2, { size: 20 }),
+                  a("span", { children: "Выйти" }),
+                ],
+              }),
+            ],
+          }),
+          a(be, { isOpen: m, onClose: () => N(false) }),
+          a(ac_1, { isOpen: w, onClose: () => I(false) }),
+        ],
+      });
 };
 
 export { Aside as Aside };

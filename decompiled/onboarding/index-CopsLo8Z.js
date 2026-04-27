@@ -20,10 +20,10 @@ const ne = "Gam4";
 const ie = "eHGn";
 const le = "vHxC";
 const d = { stepper: ae, track: se, progress: ne, step: ie, active: le };
-function oe({ steps: k, currentStep: l, onStepClick: i, className: c }) {
-  const y = ((l - 1) / (k - 1)) * 100;
+function oe({ steps, currentStep, onStepClick, className }) {
+  const y = ((currentStep - 1) / (steps - 1)) * 100;
   return a("div", {
-    className: `${d.stepper} ${c || ""}`,
+    className: `${d.stepper} ${className || ""}`,
     children: [
       a("div", {
         className: d.track,
@@ -32,13 +32,13 @@ function oe({ steps: k, currentStep: l, onStepClick: i, className: c }) {
           style: { width: `${y}%` },
         }),
       }),
-      Array.from({ length: k }, (n, E) => E + 1).map((n) =>
+      Array.from({ length: steps }, (n, E) => E + 1).map((n) =>
         a(
           "button",
           {
             type: "button",
-            className: `${d.step} ${l >= n ? d.active : ""}`,
-            onClick: () => i?.(n),
+            className: `${d.step} ${currentStep >= n ? d.active : ""}`,
+            onClick: () => onStepClick?.(n),
             children: n,
           },
           n
@@ -108,7 +108,7 @@ export const Onboarding = (k) => {
   const [G, v] = d_1(false);
   const [N, H] = d_1(null);
   const S = A(null);
-  const { createProfile: O } = c();
+  const { createProfile } = c();
 
   const R = (r) =>
     r
@@ -169,7 +169,11 @@ export const Onboarding = (k) => {
       u(null);
       U(true);
       try {
-        await O({ displayName: c.trim(), username: n.trim(), avatar: m });
+        await createProfile({
+          displayName: c.trim(),
+          username: n.trim(),
+          avatar: m,
+        });
         $("/");
       } catch (a) {
         console.error("Profile creation error:", a);
@@ -202,15 +206,7 @@ export const Onboarding = (k) => {
     } else if (r === 2 && l === 1) {
       const a = c.trim();
       const o = n.trim();
-      if (
-        !a ||
-        a.length < 2 ||
-        a.length < 2 ||
-        R(o) ||
-        a.length < 2 ||
-        R(o) ||
-        f
-      ) {
+      if (!a || a.length < 2 || R(o) || f) {
         return;
       }
       i(2);
@@ -230,7 +226,7 @@ export const Onboarding = (k) => {
     const a = 280;
     const o = 380;
     const g = window.innerWidth - r.right;
-    const b = r.left;
+    const r_left = r.left;
     const K = window.innerHeight - r.bottom;
     let $;
     let C;
@@ -245,7 +241,7 @@ export const Onboarding = (k) => {
       j = "bottom";
     }
 
-    if (b > g) {
+    if (r_left > g) {
       C = r.right - a;
       B = "right";
     } else {

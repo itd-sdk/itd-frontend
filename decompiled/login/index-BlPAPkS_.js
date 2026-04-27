@@ -53,8 +53,8 @@ export const Login = (se) => {
   const [h, t] = d(null);
   const [d, m] = d(null);
   const [I, f] = d("credentials");
-  const { login: E, status: v, reset: N } = c();
-  const l = v === "loading";
+  const { login, status, reset } = c();
+  const l = status === "loading";
 
   const k = (a) => {
     a.preventDefault();
@@ -78,7 +78,7 @@ export const Login = (se) => {
       u(false);
       try {
         if (
-          (await E({ email: n, password: i, turnstileToken: a })) !==
+          (await login({ email: n, password: i, turnstileToken: a })) !==
           "authenticated"
         ) {
           f("verify");
@@ -119,13 +119,13 @@ export const Login = (se) => {
         }
       }
     },
-    [n, i, E]
+    [n, i, login]
   );
 
   const L = q_1(() => {
-    N();
+    reset();
     f("credentials");
-  }, [N]);
+  }, [reset]);
 
   return a("div", {
     className: s.page,

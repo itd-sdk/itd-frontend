@@ -227,11 +227,11 @@ function vn(n, o) {
   };
 }
 
-const wn = ({ size: n = 18 }) =>
+const wn = ({ size = 18 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 18 18",
     children: [
@@ -248,11 +248,11 @@ const wn = ({ size: n = 18 }) =>
     ],
   });
 
-const Se = ({ size: n = 18 }) =>
+const Se = ({ size = 18 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 18 18",
     children: [
@@ -269,11 +269,11 @@ const Se = ({ size: n = 18 }) =>
     ],
   });
 
-const Nn = ({ size: n = 18 }) =>
+const Nn = ({ size = 18 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 18 18",
     children: [
@@ -290,11 +290,11 @@ const Nn = ({ size: n = 18 }) =>
     ],
   });
 
-const bn = ({ size: n = 18 }) =>
+const bn = ({ size = 18 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 18 18",
     children: [
@@ -309,10 +309,10 @@ const bn = ({ size: n = 18 }) =>
     ],
   });
 
-const yn = ({ size: n = 48 }) =>
+const yn = ({ size = 48 }) =>
   a("svg", {
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -332,10 +332,10 @@ const yn = ({ size: n = 48 }) =>
     ],
   });
 
-const Cn = ({ size: n = 24 }) =>
+const Cn = ({ size = 24 }) =>
   a("svg", {
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg",
@@ -369,11 +369,11 @@ const Pn = () =>
     }),
   });
 
-const kn = ({ size: n = 18 }) =>
+const kn = ({ size = 18 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 18 18",
     children: a("path", {
@@ -385,10 +385,10 @@ const kn = ({ size: n = 18 }) =>
     }),
   });
 
-const In = ({ size: n = 48 }) =>
+const In = ({ size = 48 }) =>
   a("svg", {
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -401,11 +401,11 @@ const In = ({ size: n = 48 }) =>
     ],
   });
 
-const Sn = ({ size: n = 24 }) =>
+const Sn = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 24 24",
     children: a("path", {
@@ -416,11 +416,11 @@ const Sn = ({ size: n = 24 }) =>
     }),
   });
 
-const Ln = ({ size: n = 24 }) =>
+const Ln = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: n,
-    height: n,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 24 24",
     children: a("path", {
@@ -457,36 +457,39 @@ const ce = {
 };
 
 function pe({
-  value: n,
-  onChange: o,
-  label: l,
-  hint: u,
-  error: t,
-  size: i = "medium",
-  variant: c = "default",
-  className: h,
+  value,
+  onChange,
+  label,
+  hint,
+  error,
+  size = "medium",
+  variant = "default",
+  className,
   ...P
 }) {
   const m = (L) => {
-    o?.(L.currentTarget.value);
+    onChange?.(L.currentTarget.value);
   };
   return a("div", {
     className: ce.inputWrapper,
     children: [
-      l &&
+      label &&
         a("label", {
           className: ce.label,
-          children: [l, u && a("span", { className: ce.hint, children: u })],
+          children: [
+            label,
+            hint && a("span", { className: ce.hint, children: hint }),
+          ],
         }),
       a("input", {
-        className: `${ce.input} ${ce[i]} ${ce[c]} ${t ? ce.error : ""} ${
-          h || ""
+        className: `${ce.input} ${ce[i]} ${ce[c]} ${error ? ce.error : ""} ${
+          className || ""
         }`,
-        value: n,
+        value: value,
         onInput: m,
         ...P,
       }),
-      t && a("span", { className: ce.errorText, children: t }),
+      error && a("span", { className: ce.errorText, children: error }),
     ],
   });
 }
@@ -508,7 +511,7 @@ const ne = {
   actions: Hn,
 };
 
-function qn({ onClose: n, onBack: o }) {
+function qn({ onClose, onBack }) {
   const [l, u] = d("");
   const [t, i] = d("");
   const [c, h] = d("");
@@ -542,7 +545,7 @@ function qn({ onClose: n, onBack: o }) {
     try {
       await b.changePassword({ currentPassword: l, newPassword: t });
       await c.getState().logout();
-      n();
+      onClose();
     } catch (g) {
       if (i(g)) {
         if (g.code === "CURRENT_PASSWORD_INCORRECT") {
@@ -566,7 +569,7 @@ function qn({ onClose: n, onBack: o }) {
 
   const M = l.length > 0 && t.length >= 10 && c.length > 0;
   return a(M, {
-    onClose: o,
+    onClose: onBack,
     title: "Смена пароля",
     children: a("form", {
       onSubmit: S,
@@ -637,7 +640,7 @@ function qn({ onClose: n, onBack: o }) {
             a(B, {
               type: "button",
               variant: "secondary",
-              onClick: o,
+              onClick: onBack,
               disabled: P,
               children: "Отмена",
             }),
@@ -686,35 +689,35 @@ const W = {
   loadMoreSentinel: is,
 };
 
-function Le({ userId: n, type: o, title: l, onCountChange: u }) {
-  const { closeModal: t } = a_1();
+function Le({ userId, type, title, onCountChange }) {
+  const { closeModal } = a_1();
 
-  const i = c((a) => a.profile?.id);
+  const i = users((a) => a.profile?.id);
 
   const {
-    users: c,
-    isLoading: h,
-    isLoadingMore: P,
-    nextCursor: m,
-    loadMoreRef: L,
-    userFollowStatus: k,
-    loadingFollowIds: N,
-    handleToggleFollow: b,
-  } = vn(n, o);
+    users,
+    isLoading,
+    isLoadingMore,
+    nextCursor,
+    loadMoreRef,
+    userFollowStatus,
+    loadingFollowIds,
+    handleToggleFollow,
+  } = vn(userId, type);
 
   const [S, M] = d(new Map());
   const [I, g] = d(new Set());
-  const B = o === "pending-incoming";
-  const D = o === "pending-outgoing";
+  const B = type === "pending-incoming";
+  const D = type === "pending-outgoing";
 
   const r = q_1(
     (a) => {
       if (a) {
-        t();
+        closeModal();
         $(`/@${a}`);
       }
     },
-    [t]
+    [closeModal]
   );
 
   const E = q_1(
@@ -768,7 +771,7 @@ function Le({ userId: n, type: o, title: l, onCountChange: u }) {
   );
 
   const v = () => {
-    switch (o) {
+    switch (type) {
       case "followers": {
         return "Нет подписчиков";
       }
@@ -785,23 +788,23 @@ function Le({ userId: n, type: o, title: l, onCountChange: u }) {
   };
 
   return a(M, {
-    onClose: t,
-    title: l,
+    onClose: closeModal,
+    title: title,
     className: W.userListModal,
     children: a("div", {
       className: W.content,
-      children: h
+      children: isLoading
         ? a(S, {})
-        : c.length === 0
+        : users.length === 0
         ? a("div", { className: W.empty, children: v() })
         : a("div", {
             className: W.userList,
             children: [
-              c.map((a) => {
-                const w = k.get(a.userId);
+              users.map((a) => {
+                const w = userFollowStatus.get(a.userId);
                 const z = w === "following";
                 const j = w === "requested";
-                const K = N.has(a.userId);
+                const K = loadingFollowIds.has(a.userId);
                 const Z = a.userId === i;
                 const Y = S.get(a.userId);
                 const Q = I.has(a.userId);
@@ -947,7 +950,7 @@ function Le({ userId: n, type: o, title: l, onCountChange: u }) {
                           size: "sm",
                           variant: z || j ? "secondary" : "primary",
                           disabled: K,
-                          onClick: (A) => b(a.userId, A),
+                          onClick: (A) => handleToggleFollow(a.userId, A),
                           className: W.followButton,
                           children: C(),
                         }),
@@ -956,11 +959,11 @@ function Le({ userId: n, type: o, title: l, onCountChange: u }) {
                   a.userId
                 );
               }),
-              m &&
+              nextCursor &&
                 a("div", {
-                  ref: L,
+                  ref: loadMoreRef,
                   className: W.loadMoreSentinel,
-                  children: P && a(S, { size: "sm" }),
+                  children: isLoadingMore && a(S, { size: "sm" }),
                 }),
             ],
           }),
@@ -973,28 +976,22 @@ const rs = "Rmnj";
 const ds = "bsLL";
 const us = "kUyU";
 const fe = { checkbox: cs, disabled: ls, input: rs, checkmark: ds, label: us };
-function hs({
-  checked: n,
-  onChange: o,
-  label: l,
-  disabled: u = false,
-  className: t = "",
-}) {
+function hs({ checked, onChange, label, disabled = false, className = "" }) {
   const i = (c) => {
-    o(c.target.checked);
+    onChange(c.target.checked);
   };
   return a("label", {
-    className: `${fe.checkbox} ${u ? fe.disabled : ""} ${t}`,
+    className: `${fe.checkbox} ${disabled ? fe.disabled : ""} ${className}`,
     children: [
       a("input", {
         type: "checkbox",
-        checked: n,
+        checked: checked,
         onChange: i,
-        disabled: u,
+        disabled: disabled,
         className: fe.input,
       }),
       a("span", { className: fe.checkmark }),
-      l && a("span", { className: fe.label, children: l }),
+      label && a("span", { className: fe.label, children: label }),
     ],
   });
 }
@@ -1044,7 +1041,7 @@ const H = {
 
 const As = 50 * 1024 * 1024;
 const Us = ["video/mp4", "video/webm", "video/quicktime"];
-function Es({ onClose: n }) {
+function Es({ onClose }) {
   const [o, l] = d("loading");
   const [u, t] = d(null);
   const [i, c] = d(null);
@@ -1140,7 +1137,7 @@ function Es({ onClose: n }) {
 
   if (o === "loading") {
     return a(M, {
-      onClose: n,
+      onClose: onClose,
       showHeader: false,
       className: H.modal,
       children: a("div", { className: H.content, children: a(S, {}) }),
@@ -1153,7 +1150,7 @@ function Es({ onClose: n }) {
     (o.status === "pending" || o.status === "approved")
   ) {
     return a(M, {
-      onClose: n,
+      onClose: onClose,
       showHeader: false,
       className: H.modal,
       children: a("div", {
@@ -1184,7 +1181,7 @@ function Es({ onClose: n }) {
             className: H.actions,
             children: a(B, {
               variant: "primary",
-              onClick: () => n(),
+              onClick: () => onClose(),
               children: "Понятно",
             }),
           }),
@@ -1194,7 +1191,7 @@ function Es({ onClose: n }) {
   }
 
   return a(M, {
-    onClose: n,
+    onClose: onClose,
     showHeader: false,
     className: H.modal,
     children: a("div", {
@@ -1280,14 +1277,14 @@ function Es({ onClose: n }) {
           children: [
             a(B, {
               variant: "secondary",
-              onClick: () => n(),
+              onClick: () => onClose(),
               disabled: m,
               children: "Отмена",
             }),
             a(B, {
               variant: "primary",
               onClick: D,
-              disabled: !u || !h || !h || m,
+              disabled: !u || !h || m,
               children: m ? "Отправка..." : "Отправить заявку",
             }),
           ],
@@ -1299,21 +1296,21 @@ function Es({ onClose: n }) {
 const Fs = "BG0Q";
 const Rs = "ZxuV";
 const Te = { toggle: Fs, active: Rs };
-function le({ checked: n, onChange: o, disabled: l }) {
+function le({ checked, onChange, disabled }) {
   const u = (t) => {
     t.stopPropagation();
 
-    if (!l) {
-      o(!n);
+    if (!disabled) {
+      onChange(!checked);
     }
   };
   return a("button", {
     type: "button",
-    className: `${Te.toggle} ${n ? Te.active : ""}`,
+    className: `${Te.toggle} ${checked ? Te.active : ""}`,
     onClick: u,
-    disabled: l,
+    disabled: disabled,
     role: "switch",
-    "aria-checked": n,
+    "aria-checked": checked,
   });
 }
 const Ds = "HA3I";
@@ -1387,13 +1384,13 @@ const pt = "xCUP";
 const vt = "e2JV";
 const wt = "bqOq";
 const we = { content: gt, title: pt, subtitle: vt, actions: wt };
-function Nt({ onClose: n }) {
+function Nt({ onClose }) {
   const o = async () => {
     await c.getState().deleteAccount();
-    n();
+    onClose();
   };
   return a(M, {
-    onClose: n,
+    onClose: onClose,
     showHeader: false,
     children: a("div", {
       className: we.content,
@@ -1411,7 +1408,7 @@ function Nt({ onClose: n }) {
               variant: "secondary",
               onClick: (l) => {
                 l.stopPropagation();
-                n();
+                onClose();
               },
               children: "Отмена",
             }),
@@ -1523,13 +1520,13 @@ const s = {
   logoutButton: da,
 };
 
-const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
+const ua = D(({ onDirtyChange, onSavingChange, onClose }, t) => {
   const i = c((f) => f.profile);
 
   const c = c((f) => f.logout);
 
-  const { openModal: h, closeModal: P } = a_1();
-  const m = h();
+  const { openModal, closeModal } = a_1();
+  const m = openModal();
   const [L] = C();
   const k = L?.url || window.location.pathname;
   const [N, b] = d(true);
@@ -1580,11 +1577,11 @@ const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
   }, []);
 
   y(() => {
-    o(I);
+    onDirtyChange(I);
   }, [I]);
 
   y(() => {
-    l(S);
+    onSavingChange(S);
   }, [S]);
 
   const C = q_1(
@@ -1621,7 +1618,7 @@ const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
 
   const y = q_1(
     (f) => {
-      const U = j?.slug === f.slug || f;
+      const U = j?.slug === f.slug ? null : f;
       K(U);
       g(C(v, U));
     },
@@ -1636,7 +1633,7 @@ const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
     D({});
     E(null);
     const f = p?.username;
-    const U = v.username;
+    const v_username = v.username;
     try {
       if (p && Object.keys(v).some((X) => v[X] !== p[X])) {
         await p.updateProfile({
@@ -1669,8 +1666,12 @@ const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
         });
       }
 
-      if (U && U !== f && (k === `/@${f}` || k === `/@${i?.id}`)) {
-        $(`/@${U}`);
+      if (
+        v_username &&
+        v_username !== f &&
+        (k === `/@${f}` || k === `/@${i?.id}`)
+      ) {
+        $(`/@${v_username}`);
       }
     } catch (_) {
       console.error("Failed to save profile:", _);
@@ -1951,7 +1952,7 @@ const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
                 className: s.logoutButton,
                 onClick: () => {
                   c();
-                  u();
+                  onClose();
                 },
                 children: [
                   a(I_3, { size: 20 }),
@@ -1964,7 +1965,7 @@ const ua = D(({ onDirtyChange: o, onSavingChange: l, onClose: u }, t) => {
             children: a("button", {
               type: "button",
               className: s.deleteAccountButton,
-              onClick: () => h(a(Nt, { onClose: P })),
+              onClick: () => openModal(a(Nt, { onClose: closeModal })),
               children: "Удалить аккаунт",
             }),
           }),
@@ -1990,11 +1991,11 @@ const de = {
   selected: wa,
 };
 
-function Ce({ value: n, options: o, onChange: l, disabled: u }) {
+function Ce({ value, options, onChange, disabled }) {
   const [t, i] = d(false);
   const c = A(null);
 
-  const h = o.find((m) => m.value === n);
+  const h = options.find((m) => m.value === value);
 
   y(() => {
     const m = (L) => {
@@ -2012,7 +2013,7 @@ function Ce({ value: n, options: o, onChange: l, disabled: u }) {
     };
   }, [t]);
   const P = (m) => {
-    l(m);
+    onChange(m);
     i(false);
   };
   return a("div", {
@@ -2025,11 +2026,11 @@ function Ce({ value: n, options: o, onChange: l, disabled: u }) {
         onClick: (m) => {
           m.stopPropagation();
 
-          if (!u) {
+          if (!disabled) {
             i(!t);
           }
         },
-        disabled: u,
+        disabled: disabled,
         children: [
           a("span", { className: de.selectedValue, children: h?.label }),
           a(kn, { size: 16 }),
@@ -2038,12 +2039,14 @@ function Ce({ value: n, options: o, onChange: l, disabled: u }) {
       t &&
         a("div", {
           className: de.dropdown,
-          children: o.map((m) =>
+          children: options.map((m) =>
             a(
               "button",
               {
                 type: "button",
-                className: `${de.option} ${m.value === n ? de.selected : ""}`,
+                className: `${de.option} ${
+                  m.value === value ? de.selected : ""
+                }`,
                 onClick: () => P(m.value),
                 children: m.label,
               },
@@ -2069,7 +2072,7 @@ const Na = [
 ];
 
 function ba() {
-  const { theme: n, setTheme: o } = j();
+  const { theme, setTheme } = j();
   return a(k, {
     children: [
       a("h2", { className: s.contentTitle, children: "Оформление" }),
@@ -2091,14 +2094,14 @@ function ba() {
                 ],
               }),
             }),
-            a(Ce, { value: n, options: Na, onChange: (l) => o(l) }),
+            a(Ce, { value: theme, options: Na, onChange: (l) => setTheme(l) }),
           ],
         }),
       }),
     ],
   });
 }
-function ya({ onChangePassword: n }) {
+function ya({ onChangePassword }) {
   return a(k, {
     children: [
       a("h2", { className: s.contentTitle, children: "Безопасность" }),
@@ -2120,7 +2123,11 @@ function ya({ onChangePassword: n }) {
                 ],
               }),
             }),
-            a(B, { size: "sm", onClick: n, children: "Сменить пароль" }),
+            a(B, {
+              size: "sm",
+              onClick: onChangePassword,
+              children: "Сменить пароль",
+            }),
           ],
         }),
       }),
@@ -2128,8 +2135,8 @@ function ya({ onChangePassword: n }) {
   });
 }
 
-const Ca = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
-  const { settings: t, fetchSettings: i, updateSettings: c } = l();
+const Ca = D(({ onDirtyChange, onSavingChange }, u) => {
+  const { settings, fetchSettings, updateSettings } = onSavingChange();
 
   const [h, P] = d({
     webEnabled: true,
@@ -2147,35 +2154,35 @@ const Ca = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
   const [M, I] = d(false);
 
   y(() => {
-    if (!M && !t) {
-      i();
+    if (!M && !settings) {
+      fetchSettings();
     }
   }, [M]);
 
   y(() => {
-    if (t && !M) {
+    if (settings && !M) {
       const r = {
-        webEnabled: t.webEnabled,
-        soundEnabled: t.soundEnabled,
-        follows: t.preferences.follows,
-        reactions: t.preferences.reactions,
-        replies: t.preferences.replies,
-        mentions: t.preferences.mentions,
-        wallPosts: t.preferences.wallPosts,
+        webEnabled: settings.webEnabled,
+        soundEnabled: settings.soundEnabled,
+        follows: settings.preferences.follows,
+        reactions: settings.preferences.reactions,
+        replies: settings.preferences.replies,
+        mentions: settings.preferences.mentions,
+        wallPosts: settings.preferences.wallPosts,
       };
       P(r);
       L(r);
       N(false);
       I(true);
     }
-  }, [t, M]);
+  }, [settings, M]);
 
   y(() => {
-    o(k);
+    onDirtyChange(k);
   }, [k]);
 
   y(() => {
-    l(b);
+    onSavingChange(b);
   }, [b]);
 
   const g = (r, E) => {
@@ -2192,7 +2199,7 @@ const Ca = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
     if (!(!k || b)) {
       S(true);
       try {
-        await c({
+        await updateSettings({
           webEnabled: h.webEnabled,
           soundEnabled: h.soundEnabled,
           preferences: {
@@ -2206,10 +2213,10 @@ const Ca = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
 
         L({ ...h });
         N(false);
-        t.success("Настройки уведомлений сохранены");
+        settings.success("Настройки уведомлений сохранены");
       } catch (r) {
         console.error("Failed to save notification settings:", r);
-        t.error("Не удалось сохранить настройки");
+        settings.error("Не удалось сохранить настройки");
       } finally {
         S(false);
       }
@@ -2478,7 +2485,7 @@ const Ca = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
   });
 });
 
-const Pa = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
+const Pa = D(({ onDirtyChange, onSavingChange }, u) => {
   const [t, i] = d({
     isPrivate: false,
     whoCanPostOnWall: "everyone",
@@ -2506,11 +2513,11 @@ const Pa = D(({ onDirtyChange: o, onSavingChange: l }, u) => {
   }, []);
 
   y(() => {
-    o(P);
+    onDirtyChange(P);
   }, [P]);
 
   y(() => {
-    l(L);
+    onSavingChange(L);
   }, [L]);
 
   const w = async () => {
@@ -2789,7 +2796,7 @@ const ka = [
   { id: "notifications", icon: I_2, label: "Уведомления" },
 ];
 
-function Ia({ onClose: n }) {
+function Ia({ onClose }) {
   const [o, l] = d("account");
   const [u, t] = d(null);
   const [i, c] = d(false);
@@ -2859,7 +2866,7 @@ function Ia({ onClose: n }) {
     if (S) {
       t({ type: "close" });
     } else {
-      n();
+      onClose();
     }
   };
 
@@ -2871,7 +2878,7 @@ function Ia({ onClose: n }) {
     if (a?.type === "tab") {
       l(a.tab);
     } else if (a?.type === "close") {
-      n();
+      onClose();
     }
   };
 
@@ -2883,7 +2890,7 @@ function Ia({ onClose: n }) {
     if (a?.type === "tab") {
       l(a.tab);
     } else if (a?.type === "close") {
-      n();
+      onClose();
     }
   };
 
@@ -2894,7 +2901,7 @@ function Ia({ onClose: n }) {
           ref: k,
           onDirtyChange: I("account"),
           onSavingChange: g("account"),
-          onClose: n,
+          onClose: onClose,
         });
       }
       case "appearance": {
@@ -2921,7 +2928,7 @@ function Ia({ onClose: n }) {
   };
 
   return i
-    ? a(qn, { onClose: n, onBack: () => c(false) })
+    ? a(qn, { onClose: onClose, onBack: () => c(false) })
     : a(M, {
         onClose: E,
         frameless: true,
@@ -3030,24 +3037,18 @@ const he = {
   actions: xa,
 };
 
-function Ba({
-  username: n,
-  displayName: o,
-  avatar: l,
-  onConfirm: u,
-  onClose: t,
-}) {
+function Ba({ username, displayName, avatar, onConfirm, onClose }) {
   const i = () => {
-    u();
-    t();
+    onConfirm();
+    onClose();
   };
   return a(M, {
-    onClose: t,
+    onClose: onClose,
     showHeader: false,
     children: a("div", {
       className: he.content,
       children: [
-        a(f, { src: l, alt: o, size: "lg" }),
+        a(f, { src: avatar, alt: displayName, size: "lg" }),
         a("h2", {
           className: he.title,
           children: "Заблокировать пользователя?",
@@ -3057,9 +3058,12 @@ function Ba({
           children: [
             "Вы уверены, что хотите заблокировать",
             " ",
-            a("strong", { children: o }),
-            n &&
-              a("span", { className: he.username, children: [" (@", n, ")"] }),
+            a("strong", { children: displayName }),
+            username &&
+              a("span", {
+                className: he.username,
+                children: [" (@", username, ")"],
+              }),
             "?",
           ],
         }),
@@ -3073,7 +3077,7 @@ function Ba({
           children: [
             a(B, {
               variant: "secondary",
-              onClick: () => t(),
+              onClick: () => onClose(),
               fullWidth: true,
               children: "Отмена",
             }),
@@ -3140,29 +3144,29 @@ function xe(n) {
     : n.toString();
 }
 function Be({
-  followers: n,
-  following: o,
-  isPhone: l = false,
-  onFollowersClick: u,
-  onFollowingClick: t,
+  followers,
+  following,
+  isPhone = false,
+  onFollowersClick,
+  onFollowingClick,
 }) {
   return a("div", {
     className: x.stats,
     children: [
       a("div", {
-        className: `${x.stat} ${u ? x.clickable : ""}`,
-        onClick: u,
+        className: `${x.stat} ${onFollowersClick ? x.clickable : ""}`,
+        onClick: onFollowersClick,
         children: [
-          a("span", { className: x.statValue, children: xe(n) }),
+          a("span", { className: x.statValue, children: xe(followers) }),
           a("span", { className: x.statLabel, children: "подписчиков" }),
         ],
       }),
-      l && a("hr", {}),
+      isPhone && a("hr", {}),
       a("div", {
-        className: `${x.stat} ${t ? x.clickable : ""}`,
-        onClick: t,
+        className: `${x.stat} ${onFollowingClick ? x.clickable : ""}`,
+        onClick: onFollowingClick,
         children: [
-          a("span", { className: x.statValue, children: xe(o) }),
+          a("span", { className: x.statValue, children: xe(following) }),
           a("span", { className: x.statLabel, children: "подписок" }),
         ],
       }),
@@ -3170,28 +3174,32 @@ function Be({
   });
 }
 function Ua({
-  isOwnProfile: n,
-  isFollowing: o,
-  isRequested: l = false,
-  isFollowLoading: u,
-  onEditProfile: t,
-  onToggleFollow: i,
-  fullWidth: c = false,
+  isOwnProfile,
+  isFollowing,
+  isRequested = false,
+  isFollowLoading,
+  onEditProfile,
+  onToggleFollow,
+  fullWidth = false,
 }) {
   const [h, P] = d(false);
   const L = x_1()?.subscription?.isActive;
-  return n
+  return isOwnProfile
     ? a(k, {
         children: [
           a("div", {
             className: x.ownActions,
             children: [
-              a(B, { onClick: t, fullWidth: c, children: "Редактировать" }),
+              a(B, {
+                onClick: onEditProfile,
+                fullWidth: fullWidth,
+                children: "Редактировать",
+              }),
               !L &&
                 a(B, {
                   variant: "secondary",
                   onClick: () => P(true),
-                  fullWidth: c,
+                  fullWidth: fullWidth,
                   children: "ИТД НУКСТА",
                 }),
             ],
@@ -3200,46 +3208,46 @@ function Ua({
         ],
       })
     : a(B, {
-        variant: o || l ? "secondary" : "primary",
-        onClick: i,
-        disabled: u,
-        fullWidth: c,
-        children: o
+        variant: isFollowing || isRequested ? "secondary" : "primary",
+        onClick: onToggleFollow,
+        disabled: isFollowLoading,
+        fullWidth: fullWidth,
+        children: isFollowing
           ? a(k, { children: [a(I_1, { size: 18 }), "Вы подписаны"] })
-          : l
+          : isRequested
           ? "Заявка отправлена"
           : a(k, { children: [a(E, { size: 18 }), "Подписаться"] }),
       });
 }
 function Ae({
-  isOwnProfile: n,
-  isVerified: o = false,
-  isBlocked: l = false,
-  onVerificationRequest: u,
-  onBlockUser: t,
-  onReportUser: i,
+  isOwnProfile,
+  isVerified = false,
+  isBlocked = false,
+  onVerificationRequest,
+  onBlockUser,
+  onReportUser,
   ...c
 }) {
   const P = (() => {
     const m = [];
 
-    if (!n && t) {
+    if (!isOwnProfile && onBlockUser) {
       m.push({
         id: "block",
-        label: l ? "Разблокировать" : "Заблокировать",
+        label: isBlocked ? "Разблокировать" : "Заблокировать",
         icon: a(Cn, { size: 18 }),
-        danger: !l,
-        onClick: t,
+        danger: !isBlocked,
+        onClick: onBlockUser,
       });
     }
 
-    if (!n && i) {
+    if (!isOwnProfile && onReportUser) {
       m.push({
         id: "report",
         label: "Пожаловаться",
         icon: a(w, { size: 18 }),
         danger: true,
-        onClick: i,
+        onClick: onReportUser,
       });
     }
 
@@ -3249,7 +3257,7 @@ function Ae({
     className: x.actions,
     children: [
       P.length > 0 &&
-        a(o, {
+        a(isVerified, {
           trigger: a(B, {
             variant: "secondary",
             iconOnly: true,
@@ -3258,16 +3266,16 @@ function Ae({
           items: P,
           position: "bottom-right",
         }),
-      n &&
-        !o &&
-        u &&
+      isOwnProfile &&
+        !isVerified &&
+        onVerificationRequest &&
         a(B, {
           variant: "secondary",
           iconOnly: true,
-          onClick: u,
+          onClick: onVerificationRequest,
           children: a(v, { size: 18 }),
         }),
-      a(Ua, { isOwnProfile: n, isVerified: o, ...c }),
+      a(Ua, { isOwnProfile: isOwnProfile, isVerified: isVerified, ...c }),
     ],
   });
 }
@@ -3285,51 +3293,53 @@ function Fa(n) {
   });
 }
 function Ra({
-  profile: n,
-  isOwnProfile: o,
-  isFollowing: l,
-  isRequested: u = false,
-  isFollowLoading: t,
-  isBlocked: i = false,
-  isFollowedBy: c = false,
-  isPhone: h,
-  onEditProfile: P,
-  onToggleFollow: m,
-  onBlockUser: L,
-  onFollowersClick: k,
-  onFollowingClick: N,
-  onBannerUpdate: b,
+  profile,
+  isOwnProfile,
+  isFollowing,
+  isRequested = false,
+  isFollowLoading,
+  isBlocked = false,
+  isFollowedBy = false,
+  isPhone,
+  onEditProfile,
+  onToggleFollow,
+  onBlockUser,
+  onFollowersClick,
+  onFollowingClick,
+  onBannerUpdate,
 }) {
   const [S, M] = d(false);
-  const { openModal: I, closeModal: g } = a_1();
+  const { openModal, closeModal } = a_1();
 
   const B = q_1(() => {
     M(true);
   }, []);
 
   const D = q_1(() => {
-    I(a(Es, { onClose: g }));
-  }, [I, g]);
+    openModal(a(Es, { onClose: closeModal }));
+  }, [openModal, closeModal]);
 
   const r = q_1(() => {
-    if (i) {
-      L?.();
+    if (isBlocked) {
+      onBlockUser?.();
       return;
     }
-    I(
+    openModal(
       a(Ba, {
-        username: n.username || "",
-        displayName: n.displayName,
-        avatar: n.avatar,
-        onConfirm: () => L?.(),
-        onClose: g,
+        username: profile.username || "",
+        displayName: profile.displayName,
+        avatar: profile.avatar,
+        onConfirm: () => onBlockUser?.(),
+        onClose: closeModal,
       })
     );
-  }, [i, L, I, g, n]);
+  }, [isBlocked, onBlockUser, openModal, closeModal, profile]);
 
   const E = q_1(() => {
-    I(a(R, { targetType: "user", targetId: n.id, onClose: g }));
-  }, [I, g, n.id]);
+    openModal(
+      a(R, { targetType: "user", targetId: profile.id, onClose: closeModal })
+    );
+  }, [openModal, closeModal, profile.id]);
 
   const p = q_1(() => {
     M(false);
@@ -3338,11 +3348,11 @@ function Ra({
   const O = q_1(async () => {
     try {
       await p.updateProfile({ bannerId: null });
-      b?.(null);
+      onBannerUpdate?.(null);
     } catch (a) {
       console.error("Failed to delete banner:", a);
     }
-  }, [b]);
+  }, [onBannerUpdate]);
 
   const v = q_1(
     async (a) => {
@@ -3356,10 +3366,10 @@ function Ra({
         }
         const Y = new Blob([Z], { type: j });
         const Q = new File([Y], "banner.png", { type: "image/png" });
-        const C = await m.uploadMedia(Q);
+        const C = await onToggleFollow.uploadMedia(Q);
         await p.updateProfile({ bannerId: C.id });
 
-        b?.({
+        onBannerUpdate?.({
           id: C.id,
           type: "image",
           url: C.url,
@@ -3368,11 +3378,11 @@ function Ra({
         });
       } catch (w) {
         console.error("Failed to upload banner:", w);
-        t.error("Не удалось загрузить баннер");
+        isFollowLoading.error("Не удалось загрузить баннер");
         throw w;
       }
     },
-    [b]
+    [onBannerUpdate]
   );
 
   return a("div", {
@@ -3381,10 +3391,10 @@ function Ra({
       a("div", {
         className: x.banner,
         children: [
-          n.banner?.url
-            ? a("img", { src: n.banner.url, alt: "Banner" })
+          profile.banner?.url
+            ? a("img", { src: profile.banner.url, alt: "Banner" })
             : a("div", { className: x.bannerPlaceholder }),
-          o &&
+          isOwnProfile &&
             a("div", {
               className: x.bannerActions,
               children: [
@@ -3392,9 +3402,9 @@ function Ra({
                   className: x.bannerActionButton,
                   onClick: B,
                   title: "Нарисовать баннер",
-                  children: a(n, { size: 20 }),
+                  children: a(profile, { size: 20 }),
                 }),
-                n.banner?.url &&
+                profile.banner?.url &&
                   a("button", {
                     className: `${x.bannerActionButton} ${x.deleteBannerButton}`,
                     onClick: O,
@@ -3406,7 +3416,7 @@ function Ra({
         ],
       }),
       S &&
-        a(P, {
+        a(onEditProfile, {
           fallback: null,
           children: a(Ea, { isOpen: S, onClose: p, onSave: v, mode: "banner" }),
         }),
@@ -3417,22 +3427,22 @@ function Ra({
             className: x.avatarRow,
             children: [
               a(f, {
-                src: n.avatar,
-                alt: n.displayName,
+                src: profile.avatar,
+                alt: profile.displayName,
                 size: "lg",
-                online: n.online,
+                online: profile.online,
                 className: x.avatar,
               }),
-              !h &&
+              !isPhone &&
                 a(Ae, {
-                  isOwnProfile: o,
-                  isFollowing: l,
-                  isRequested: u,
-                  isFollowLoading: t,
-                  isVerified: n.isVerified,
-                  isBlocked: i,
-                  onEditProfile: P,
-                  onToggleFollow: m,
+                  isOwnProfile: isOwnProfile,
+                  isFollowing: isFollowing,
+                  isRequested: isRequested,
+                  isFollowLoading: isFollowLoading,
+                  isVerified: profile.isVerified,
+                  isBlocked: isBlocked,
+                  onEditProfile: onEditProfile,
+                  onToggleFollow: onToggleFollow,
                   onVerificationRequest: D,
                   onBlockUser: r,
                   onReportUser: E,
@@ -3446,41 +3456,41 @@ function Ra({
                 className: x.userInfo,
                 children: [
                   a(U, {
-                    name: n.displayName,
-                    verified: n.isVerified,
-                    hasNuksta: n.hasNuksta,
-                    pin: n.pin,
+                    name: profile.displayName,
+                    verified: profile.isVerified,
+                    hasNuksta: profile.hasNuksta,
+                    pin: profile.pin,
                     size: "lg",
                     className: x.name,
                   }),
-                  n.username &&
+                  profile.username &&
                     a("span", {
                       className: x.username,
-                      children: ["@", n.username],
+                      children: ["@", profile.username],
                     }),
                 ],
               }),
-              h &&
-                a(k, {
+              isPhone &&
+                a(onFollowersClick, {
                   children: [
                     a(Be, {
                       isPhone: true,
-                      followers: n.stats?.followers ?? 0,
-                      following: n.stats?.following ?? 0,
-                      onFollowersClick: k,
-                      onFollowingClick: N,
+                      followers: profile.stats?.followers ?? 0,
+                      following: profile.stats?.following ?? 0,
+                      onFollowersClick: onFollowersClick,
+                      onFollowingClick: onFollowingClick,
                     }),
                     a("div", {
                       className: x.mobileActions,
                       children: a(Ae, {
-                        isOwnProfile: o,
-                        isFollowing: l,
-                        isRequested: u,
-                        isFollowLoading: t,
-                        isVerified: n.isVerified,
-                        isBlocked: i,
-                        onEditProfile: P,
-                        onToggleFollow: m,
+                        isOwnProfile: isOwnProfile,
+                        isFollowing: isFollowing,
+                        isRequested: isRequested,
+                        isFollowLoading: isFollowLoading,
+                        isVerified: profile.isVerified,
+                        isBlocked: isBlocked,
+                        onEditProfile: onEditProfile,
+                        onToggleFollow: onToggleFollow,
                         onVerificationRequest: D,
                         onBlockUser: r,
                         onReportUser: E,
@@ -3488,28 +3498,33 @@ function Ra({
                     }),
                   ],
                 }),
-              n.bio && a("p", { className: x.bio, children: n.bio }),
-              !h &&
+              profile.bio &&
+                a("p", { className: x.bio, children: profile.bio }),
+              !isPhone &&
                 a(Be, {
-                  followers: n.stats?.followers ?? 0,
-                  following: n.stats?.following ?? 0,
-                  onFollowersClick: k,
-                  onFollowingClick: N,
+                  followers: profile.stats?.followers ?? 0,
+                  following: profile.stats?.following ?? 0,
+                  onFollowersClick: onFollowersClick,
+                  onFollowingClick: onFollowingClick,
                 }),
-              !o &&
-                !n.online &&
-                n.lastSeen &&
+              !isOwnProfile &&
+                !profile.online &&
+                profile.lastSeen &&
                 a("span", {
                   className: x.metaItem,
-                  children: ["Был(а) в сети: ", Aa(n.lastSeen)],
+                  children: ["Был(а) в сети: ", Aa(profile.lastSeen)],
                 }),
-              n.createdAt &&
+              profile.createdAt &&
                 a("span", {
                   className: x.metaItem,
-                  children: [a(Pn, {}), " Регистрация: ", Fa(n.createdAt)],
+                  children: [
+                    a(Pn, {}),
+                    " Регистрация: ",
+                    Fa(profile.createdAt),
+                  ],
                 }),
-              c &&
-                !o &&
+              isFollowedBy &&
+                !isOwnProfile &&
                 a("span", {
                   className: x.followsYou,
                   children: "Подписан на вас",
@@ -3521,7 +3536,7 @@ function Ra({
     ],
   });
 }
-function Da({ profile: n, isBlocked: o }) {
+function Da({ profile, isBlocked }) {
   const [l, u] = d("posts");
   const [t, i] = d([]);
   const [c, h] = d(false);
@@ -3541,9 +3556,9 @@ function Da({ profile: n, isBlocked: o }) {
         pinnedPostId: $,
       });
 
-      const U = f.data;
+      const f_data = f.data;
 
-      i((_) => (R ? [..._, ...U] : U));
+      i((_) => (R ? [..._, ...f_data] : f_data));
 
       m(f.nextCursor);
     } catch (f) {
@@ -3562,9 +3577,9 @@ function Da({ profile: n, isBlocked: o }) {
       D(null);
       try {
         const R = await p_1.getUserLikedPosts(y, { cursor: $, limit: 20 });
-        const f = R.data;
+        const R_data = R.data;
 
-        k((U) => ($ ? [...U, ...f] : f));
+        k((U) => ($ ? [...U, ...R_data] : R_data));
 
         M(R.nextCursor);
         g(true);
@@ -3582,18 +3597,16 @@ function Da({ profile: n, isBlocked: o }) {
   );
 
   y(() => {
-    if (n && !o) {
-      if (!o) {
-        r(n.username || n.id, n.pinnedPostId);
-      }
+    if (profile && !isBlocked) {
+      r(profile.username || profile.id, profile.pinnedPostId);
     }
-  }, [n?.id, o, r]);
+  }, [profile?.id, isBlocked, r]);
 
   y(() => {
-    if (l === "likes" && n) {
-      E(n.id);
+    if (l === "likes" && profile) {
+      E(profile.id);
     }
-  }, [l, n?.id, E]);
+  }, [l, profile?.id, E]);
 
   const p = K((y) => y.posts);
 
@@ -3604,24 +3617,15 @@ function Da({ profile: n, isBlocked: o }) {
   const a = K((y) => y._lastLikeUpdate);
 
   y(() => {
-    if (!O || !n) {
+    if (!O || !profile) {
       return;
     }
     const y = p.find(($) => $.id === O);
 
-    if (
-      y &&
-      y.wallOwnerId === n.id &&
-      y.wallOwnerId === n.id &&
-      !t.some(($) => $.id === O)
-    ) {
-      if (y.wallOwnerId === n.id) {
-        if (!t.some(($) => $.id === O)) {
-          i(($) => [y, ...$]);
-        }
-      }
+    if (y && y.wallOwnerId === profile.id && !t.some(($) => $.id === O)) {
+      i(($) => [y, ...$]);
     }
-  }, [O, p, n?.id, t]);
+  }, [O, p, profile?.id, t]);
 
   y(() => {
     if (t.length !== 0) {
@@ -3653,16 +3657,16 @@ function Da({ profile: n, isBlocked: o }) {
     if (!a) {
       return;
     }
-    const { postId: y, myReaction: $, totalDelta: R } = a;
+    const { postId, myReaction, totalDelta } = a;
 
     const f = (U) =>
-      U.id === y
+      U.id === postId
         ? {
             ...U,
             reactions: {
               ...U.reactions,
-              myReaction: $,
-              total: Math.max(0, U.reactions.total + R),
+              myReaction: myReaction,
+              total: Math.max(0, U.reactions.total + totalDelta),
             },
           }
         : U;
@@ -3673,21 +3677,21 @@ function Da({ profile: n, isBlocked: o }) {
   }, [a]);
 
   const w = q_1(() => {
-    if (n && !c) {
+    if (profile && !c) {
       if (l === "posts" && P) {
-        r(n.username || n.id, n.pinnedPostId, P);
+        r(profile.username || profile.id, profile.pinnedPostId, P);
       } else if (l === "likes" && S && !N) {
-        E(n.id, S);
+        E(profile.id, S);
       }
     }
-  }, [n, l, P, S, c, N, r, E]);
+  }, [profile, l, P, S, c, N, r, E]);
 
   const z = q_1(
     async (y) => {
-      if (!n) {
+      if (!profile) {
         return;
       }
-      const $ = n.pinnedPostId === y;
+      const $ = profile.pinnedPostId === y;
       try {
         if ($) {
           await p.unpinPost(y);
@@ -3699,15 +3703,15 @@ function Da({ profile: n, isBlocked: o }) {
         throw R;
       }
     },
-    [n]
+    [profile]
   );
 
   const j = q_1(async () => {
-    if (n) {
-      p_1.invalidateWallCache(n.username || n.id);
-      await r(n.username || n.id, n.pinnedPostId);
+    if (profile) {
+      p_1.invalidateWallCache(profile.username || profile.id);
+      await r(profile.username || profile.id, profile.pinnedPostId);
     }
-  }, [n, r]);
+  }, [profile, r]);
 
   const K = q_1(
     (y) => {
@@ -3715,11 +3719,11 @@ function Da({ profile: n, isBlocked: o }) {
 
       k(($) => $.filter((R) => R.id !== y));
 
-      if (n) {
-        p_1.removePostFromWallCache(n.username || n.id, y);
+      if (profile) {
+        p_1.removePostFromWallCache(profile.username || profile.id, y);
       }
     },
-    [n]
+    [profile]
   );
 
   const Z = q_1((y) => {
@@ -3751,7 +3755,7 @@ function Da({ profile: n, isBlocked: o }) {
     resetPosts: Y,
   };
 }
-function Oa({ username: n }) {
+function Oa({ username }) {
   const o = c((T) => T.profile);
 
   const l = o?.id;
@@ -3772,22 +3776,22 @@ function Oa({ username: n }) {
   const p = t?.interaction?.isBlockedBy ?? false;
 
   const {
-    posts: O,
-    postsLoading: v,
-    nextCursor: a,
-    activeTab: w,
-    likesError: z,
-    hasLoadedLikes: j,
-    handleLoadMore: K,
-    handlePinPost: Z,
-    refreshPosts: Y,
-    removePost: Q,
-    handleTabChange: C,
-    resetPosts: A,
+    posts,
+    postsLoading,
+    nextCursor,
+    activeTab,
+    likesError,
+    hasLoadedLikes,
+    handleLoadMore,
+    handlePinPost,
+    refreshPosts,
+    removePost,
+    handleTabChange,
+    resetPosts,
   } = Da({ profile: t, isBlocked: S });
 
   y(() => {
-    if (!t || B || B || !o) {
+    if (!t || B || !o) {
       k("none");
       M(false);
       return;
@@ -3803,7 +3807,7 @@ function Oa({ username: n }) {
       M(t.interaction.isBlocking);
     }
   }, [t?.id, B, o]);
-  const y = A(true);
+  const y = resetPosts(true);
 
   y(() => {
     y.current = true;
@@ -3822,9 +3826,11 @@ function Oa({ username: n }) {
       m(null);
       k("none");
       M(false);
-      A();
+      resetPosts();
       try {
-        const ee = n ? await p.getProfileByUsername(n) : await p.getMyProfile();
+        const ee = username
+          ? await p.getProfileByUsername(username)
+          : await p.getMyProfile();
         if (!y.current || T.signal.aborted) {
           return;
         }
@@ -3848,7 +3854,7 @@ function Oa({ username: n }) {
     return () => {
       T.abort();
     };
-  }, [n, l, A]);
+  }, [username, l, resetPosts]);
 
   const $ = q_1(async () => {
     if (!(!t || N)) {
@@ -3919,7 +3925,7 @@ function Oa({ username: n }) {
       if (!t) {
         return;
       }
-      const ee = t.pinnedPostId === T || T;
+      const ee = t.pinnedPostId === T ? null : T;
       const Ie = { ...t, pinnedPostId: ee };
       i(Ie);
 
@@ -3928,7 +3934,7 @@ function Oa({ username: n }) {
       }
 
       try {
-        await Z(T);
+        await handlePinPost(T);
       } catch {
         i(t);
 
@@ -3937,11 +3943,11 @@ function Oa({ username: n }) {
         }
       }
     },
-    [t, o, u, Z]
+    [t, o, u, handlePinPost]
   );
 
   const _ = q_1(async () => {
-    if (!(!t || I || I || B)) {
+    if (!(!t || I || B)) {
       g(true);
       try {
         if (S) {
@@ -3982,9 +3988,9 @@ function Oa({ username: n }) {
     profile: t,
     loading: c,
     error: P,
-    posts: O,
-    postsLoading: v,
-    nextCursor: a,
+    posts: posts,
+    postsLoading: postsLoading,
+    nextCursor: nextCursor,
     isOwnProfile: B,
     isFollowing: D,
     isFollowedBy: E,
@@ -3994,145 +4000,177 @@ function Oa({ username: n }) {
     handleToggleFollow: f,
     handleFollow: $,
     handleUnfollow: R,
-    handleLoadMore: K,
+    handleLoadMore: handleLoadMore,
     handlePinPost: U,
-    refreshPosts: Y,
-    removePost: Q,
-    activeTab: w,
-    handleTabChange: C,
-    likesError: z,
-    hasLoadedLikes: j,
+    refreshPosts: refreshPosts,
+    removePost: removePost,
+    activeTab: activeTab,
+    handleTabChange: handleTabChange,
+    likesError: likesError,
+    hasLoadedLikes: hasLoadedLikes,
     updateBanner: V,
     isBlocked: S,
     handleBlockUser: _,
   };
 }
 
-export const Profile = ({ username: n }) => {
-  const o = h();
-  const l = L();
-  const { openModal: u, closeModal: t } = a_1();
+export const Profile = ({ username }) => {
+  const o = loading();
+  const l = postsLoading();
+  const { openModal, closeModal } = a_1();
 
-  const i = K((V) => V.createPost);
+  const i = updateBanner((V) => V.createPost);
 
   const {
-    profile: c,
-    loading: h,
-    error: P,
-    posts: m,
-    postsLoading: L,
-    nextCursor: k,
-    isOwnProfile: N,
-    isFollowing: b,
-    isFollowedBy: S,
-    isBlockedBy: M,
-    isRequested: I,
-    isFollowLoading: g,
-    isBlocked: B,
-    handleFollow: D,
-    handleUnfollow: r,
-    handleBlockUser: E,
-    handleLoadMore: p,
-    handlePinPost: O,
-    refreshPosts: v,
-    removePost: a,
-    activeTab: w,
-    handleTabChange: z,
-    likesError: j,
-    updateBanner: K,
-  } = Oa({ username: n });
+    profile,
+    loading,
+    error,
+    posts,
+    postsLoading,
+    nextCursor,
+    isOwnProfile,
+    isFollowing,
+    isFollowedBy,
+    isBlockedBy,
+    isRequested,
+    isFollowLoading,
+    isBlocked,
+    handleFollow,
+    handleUnfollow,
+    handleBlockUser,
+    handleLoadMore,
+    handlePinPost,
+    refreshPosts,
+    removePost,
+    activeTab,
+    handleTabChange,
+    likesError,
+    updateBanner,
+  } = Oa({ username: username });
 
   const Z = q_1(() => {
-    if (b || I) {
-      u(
-        a(N, {
-          displayName: c?.displayName ?? "",
-          onConfirm: r,
-          onClose: t,
+    if (isFollowing || isRequested) {
+      openModal(
+        removePost(isOwnProfile, {
+          displayName: profile?.displayName ?? "",
+          onConfirm: handleUnfollow,
+          onClose: closeModal,
         })
       );
     } else {
-      D();
+      handleFollow();
     }
-  }, [b, I, c?.displayName, D, r, u, t]);
+  }, [
+    isFollowing,
+    isRequested,
+    profile?.displayName,
+    handleFollow,
+    handleUnfollow,
+    openModal,
+    closeModal,
+  ]);
 
   const Y = () => {
-    u(a(Ia, { onClose: t }));
+    openModal(removePost(Ia, { onClose: closeModal }));
   };
 
   const Q = q_1(() => {
-    if (c) {
-      u(a(Le, { userId: c.id, type: "followers", title: "Подписчики" }));
+    if (profile) {
+      openModal(
+        removePost(Le, {
+          userId: profile.id,
+          type: "followers",
+          title: "Подписчики",
+        })
+      );
     }
-  }, [c, u]);
+  }, [profile, openModal]);
 
   const C = q_1(() => {
-    if (c) {
-      u(a(Le, { userId: c.id, type: "following", title: "Подписки" }));
+    if (profile) {
+      openModal(
+        removePost(Le, {
+          userId: profile.id,
+          type: "following",
+          title: "Подписки",
+        })
+      );
     }
-  }, [c, u]);
+  }, [profile, openModal]);
 
   const A = async (V, T, X, ee) => {
-    if (c) {
+    if (profile) {
       await i({
-        wallOwnerId: c.id,
+        wallOwnerId: profile.id,
         text: V,
         spans: T,
         attachments: X,
         poll: ee,
       });
 
-      v();
+      refreshPosts();
     }
   };
 
   const y = q_1(() => {
-    if (c) {
-      u(
-        a(C_1, {
-          wallOwnerId: c.id,
-          placeholder: `Написать на стене ${c.displayName}`,
-          onPostCreated: v,
+    if (profile) {
+      openModal(
+        removePost(C_1, {
+          wallOwnerId: profile.id,
+          placeholder: `Написать на стене ${profile.displayName}`,
+          onPostCreated: refreshPosts,
         })
       );
     }
-  }, [c, u, v]);
+  }, [profile, openModal, refreshPosts]);
 
   const $ = T(() => {
-    if (w !== "posts" || !c?.pinnedPostId) {
-      return m;
+    if (activeTab !== "posts" || !profile?.pinnedPostId) {
+      return posts;
     }
-    const V = m.find((T) => T.id === c.pinnedPostId);
-    return V ? [V, ...m.filter((T) => T.id !== c.pinnedPostId)] : m;
-  }, [m, c?.pinnedPostId, w]);
+    const V = posts.find((T) => T.id === profile.pinnedPostId);
+    return V
+      ? [V, ...posts.filter((T) => T.id !== profile.pinnedPostId)]
+      : posts;
+  }, [posts, profile?.pinnedPostId, activeTab]);
 
   const R = T(() => {
     if (!l) {
       return false;
     }
-    if (N) {
+    if (isOwnProfile) {
       return true;
     }
-    if (B || M) {
+    if (isBlocked || isBlockedBy) {
       return false;
     }
-    switch (c?.privacySettings?.whoCanPostOnWall) {
+    switch (profile?.privacySettings?.whoCanPostOnWall) {
       case "everyone": {
         return true;
       }
       case "followers": {
-        return b;
+        return isFollowing;
       }
       case "mutual": {
-        return b && S;
+        return isFollowing && isFollowedBy;
       }
       default: {
         return false;
       }
     }
-  }, [l, N, B, M, c?.privacySettings?.whoCanPostOnWall, b, S]);
+  }, [
+    l,
+    isOwnProfile,
+    isBlocked,
+    isBlockedBy,
+    profile?.privacySettings?.whoCanPostOnWall,
+    isFollowing,
+    isFollowedBy,
+  ]);
 
-  const f = N || c?.privacySettings?.whoCanSeeMyPostReactions === "everyone";
+  const f =
+    isOwnProfile ||
+    profile?.privacySettings?.whoCanSeeMyPostReactions === "everyone";
 
   const U = T(() => {
     const V = ["Посты"];
@@ -4146,69 +4184,69 @@ export const Profile = ({ username: n }) => {
 
   const _ = q_1(
     (V) => {
-      z(f ? (V === 0 ? "posts" : "likes") : "posts");
+      handleTabChange(f ? (V === 0 ? "posts" : "likes") : "posts");
     },
-    [z, f]
+    [handleTabChange, f]
   );
 
-  return h
+  return loading
     ? null
-    : P || !c
-    ? a("div", {
+    : error || !profile
+    ? removePost("div", {
         className: x.page,
-        children: a("div", {
+        children: removePost("div", {
           className: x.error,
-          children: P || "Профиль не найден",
+          children: error || "Профиль не найден",
         }),
       })
-    : a("div", {
+    : removePost("div", {
         className: x.page,
         children: [
-          a(Ra, {
-            profile: c,
-            isOwnProfile: N,
-            isFollowing: b,
-            isRequested: I,
-            isFollowLoading: g,
-            isBlocked: B,
-            isFollowedBy: S,
+          removePost(Ra, {
+            profile: profile,
+            isOwnProfile: isOwnProfile,
+            isFollowing: isFollowing,
+            isRequested: isRequested,
+            isFollowLoading: isFollowLoading,
+            isBlocked: isBlocked,
+            isFollowedBy: isFollowedBy,
             isPhone: o,
             onEditProfile: Y,
             onToggleFollow: Z,
-            onBlockUser: E,
+            onBlockUser: handleBlockUser,
             onFollowersClick: Q,
             onFollowingClick: C,
-            onBannerUpdate: K,
+            onBannerUpdate: updateBanner,
           }),
-          a("div", {
+          removePost("div", {
             className: x.tabsWrapper,
-            children: a(O, {
+            children: removePost(handlePinPost, {
               className: x.tabs,
               tabs: U,
-              activeIndex: w === "posts" ? 0 : 1,
+              activeIndex: activeTab === "posts" ? 0 : 1,
               onChange: _,
             }),
           }),
           R &&
-            a(k, {
+            removePost(nextCursor, {
               children: [
-                a("div", {
+                removePost("div", {
                   className: x.createPostWrapper,
                   children: [
-                    a(f, {
-                      src: c.avatar ?? "",
-                      alt: c.displayName,
+                    removePost(f, {
+                      src: profile.avatar ?? "",
+                      alt: profile.displayName,
                       size: "sm",
                     }),
-                    a(Q, {
+                    removePost(Q, {
                       onSubmit: A,
-                      placeholder: N
+                      placeholder: isOwnProfile
                         ? "Что нового?"
-                        : `Написать на стене ${c.displayName}`,
+                        : `Написать на стене ${profile.displayName}`,
                     }),
                   ],
                 }),
-                a(B, {
+                removePost(isBlocked, {
                   variant: "secondary",
                   className: x.writePostButton,
                   onClick: y,
@@ -4216,34 +4254,41 @@ export const Profile = ({ username: n }) => {
                 }),
               ],
             }),
-          B
-            ? a("div", {
+          isBlocked
+            ? removePost("div", {
                 className: x.emptyPosts,
                 children: "Вы заблокировали этого пользователя",
               })
-            : j
-            ? a("div", { className: x.emptyPosts, children: j })
+            : likesError
+            ? removePost("div", {
+                className: x.emptyPosts,
+                children: likesError,
+              })
             : $.length > 0
-            ? a(V, {
+            ? removePost(V, {
                 posts: $,
                 renderPost: (V, T, X) =>
-                  a(W_1, {
+                  removePost(W_1, {
                     post: V,
-                    isOnOwnProfile: N && w === "posts",
-                    isPinned: w === "posts" && c?.pinnedPostId === V.id,
+                    isOnOwnProfile: isOwnProfile && activeTab === "posts",
+                    isPinned:
+                      activeTab === "posts" && profile?.pinnedPostId === V.id,
                     isHighlighted: X,
-                    onPin: N && w === "posts" ? O : undefined,
-                    onDelete: w === "posts" ? a : undefined,
+                    onPin:
+                      isOwnProfile && activeTab === "posts"
+                        ? handlePinPost
+                        : undefined,
+                    onDelete: activeTab === "posts" ? removePost : undefined,
                   }),
-                hasMore: !!k,
-                isLoadingMore: L,
-                onLoadMore: p,
+                hasMore: !!nextCursor,
+                isLoadingMore: postsLoading,
+                onLoadMore: handleLoadMore,
               })
-            : L && $.length === 0
-            ? a(S, {})
-            : a("div", {
+            : postsLoading && $.length === 0
+            ? removePost(isFollowedBy, {})
+            : removePost("div", {
                 className: x.emptyPosts,
-                children: w === "posts" ? "Нет постов" : "Нет лайков",
+                children: activeTab === "posts" ? "Нет постов" : "Нет лайков",
               }),
         ],
       });

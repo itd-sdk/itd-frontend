@@ -53,22 +53,22 @@ const a = {
 };
 
 export const MobileNavigation = () => {
-  const i = x();
+  const i = openModal();
   const N = L();
-  const { initialize: P, disconnectSSE: w } = l();
+  const { initialize, disconnectSSE } = l();
   const l = af();
 
   const R = ag((e) => e.fetchPortal);
 
   y_1(() => {
     if (N) {
-      P();
+      initialize();
     }
 
     return () => {
-      w();
+      disconnectSSE();
     };
-  }, [N, P, w]);
+  }, [N, initialize, disconnectSSE]);
 
   y_1(() => {
     R();
@@ -97,7 +97,7 @@ export const MobileNavigation = () => {
   const u = A([]);
   const f = A(null);
   const [c] = C();
-  const { openModal: x } = e();
+  const { openModal } = e();
 
   const C = af_1((e) => e.fetchFeed);
 
@@ -130,9 +130,9 @@ export const MobileNavigation = () => {
     }
     I.current = e;
     const r = u.current[e];
-    const o = f.current;
-    if (r && o) {
-      const s = parseFloat(getComputedStyle(o).paddingLeft) || 0;
+    const f_current = f.current;
+    if (r && f_current) {
+      const s = parseFloat(getComputedStyle(f_current).paddingLeft) || 0;
 
       L({
         width: r.offsetWidth,
@@ -152,11 +152,11 @@ export const MobileNavigation = () => {
   }, [c.url, h]);
 
   y_1(() => {
-    const e = f.current;
-    if (!e) {
+    const f_current = f.current;
+    if (!f_current) {
       return;
     }
-    const n = e.querySelector(`.${a.active}`);
+    const n = f_current.querySelector(`.${a.active}`);
     if (n) {
       const r = u.current.indexOf(n);
 
@@ -168,13 +168,13 @@ export const MobileNavigation = () => {
   }, []);
 
   y_1(() => {
-    const e = f.current;
-    if (!e) {
+    const f_current = f.current;
+    if (!f_current) {
       return;
     }
 
     const n = () => {
-      const o = e.querySelector(`.${a.active}`);
+      const o = f_current.querySelector(`.${a.active}`);
       if (o) {
         const s = u.current.indexOf(o);
 
@@ -185,7 +185,7 @@ export const MobileNavigation = () => {
     };
 
     const r = new ResizeObserver(n);
-    r.observe(e);
+    r.observe(f_current);
     window.addEventListener("resize", n);
 
     return () => {
@@ -195,98 +195,97 @@ export const MobileNavigation = () => {
   }, [v]);
 
   const M = () => {
-    x(a_1(C_1, {}));
+    openModal(a_1(C_1, {}));
   };
-  return (
-    F ||
-    a_1("div", {
-      className: a.mobileNavigationWrapper,
-      children: [
-        a_1("nav", {
-          ref: f,
-          className: a.navigation,
-          children: [
-            a_1("div", {
-              className: `${a.indicator} ${O ? "" : a.indicatorHidden}`,
-              style: E,
-            }),
-            h.map((e, n) => {
-              const r = e.icon;
-              const o = e.id === "event";
-              const s = o && l.active && !!l.url;
-              return a_1(
-                l_1,
-                {
-                  path: e.href,
-                  children: ({ matches: U }) => {
-                    const g = U || (e.id === "profile" && z);
-                    return a_1("a", {
-                      href: s ? l.url : e.href,
-                      target: s ? "_blank" : undefined,
-                      rel: s ? "noopener noreferrer" : undefined,
-                      ref: (p) => {
-                        u.current[n] = p;
+  return F
+    ? null
+    : a_1("div", {
+        className: a.mobileNavigationWrapper,
+        children: [
+          a_1("nav", {
+            ref: f,
+            className: a.navigation,
+            children: [
+              a_1("div", {
+                className: `${a.indicator} ${O ? "" : a.indicatorHidden}`,
+                style: E,
+              }),
+              h.map((e, n) => {
+                const e_icon = e.icon;
+                const o = e.id === "event";
+                const s = o && l.active && !!l.url;
+                return a_1(
+                  l_1,
+                  {
+                    path: e.href,
+                    children: ({ matches }) => {
+                      const g = matches || (e.id === "profile" && z);
+                      return a_1("a", {
+                        href: s ? l.url : e.href,
+                        target: s ? "_blank" : undefined,
+                        rel: s ? "noopener noreferrer" : undefined,
+                        ref: (p) => {
+                          u.current[n] = p;
 
-                        if (p && g) {
-                          v(n);
-                        }
-                      },
-                      className: `${a.navItem} ${g ? a.active : ""}`,
-                      onClick: (p) => {
-                        if (g && e.id === "feed") {
-                          p.preventDefault();
-                          T();
-                        }
-                      },
-                      children: [
-                        a_1("span", {
-                          className: a.iconWrapper,
-                          children: o
-                            ? a_1("img", {
-                                src: l.active
-                                  ? "/assets/portal/portal-active.gif"
-                                  : "/assets/portal/portal-inactive.png",
-                                alt: "Ивент",
-                                className: `${a.portalImage} ${
-                                  l.active ? a.portalImageActive : ""
-                                }`,
-                              })
-                            : a_1(x_1_1, {
-                                children: [
-                                  e.id === "feed" && H
-                                    ? a_1(aj, {})
-                                    : a_1(r, {}),
-                                  e.id === "notifications" &&
-                                    m > 0 &&
-                                    a_1("span", {
-                                      className: a.badge,
-                                      children: m > 99 ? "99+" : m,
-                                    }),
-                                ],
-                              }),
-                        }),
-                        a_1("span", {
-                          className: a.label,
-                          children: e.label,
-                        }),
-                      ],
-                    });
+                          if (p && g) {
+                            v(n);
+                          }
+                        },
+                        className: `${a.navItem} ${g ? a.active : ""}`,
+                        onClick: (p) => {
+                          if (g && e.id === "feed") {
+                            p.preventDefault();
+                            T();
+                          }
+                        },
+                        children: [
+                          a_1("span", {
+                            className: a.iconWrapper,
+                            children: o
+                              ? a_1("img", {
+                                  src: l.active
+                                    ? "/assets/portal/portal-active.gif"
+                                    : "/assets/portal/portal-inactive.png",
+                                  alt: "Ивент",
+                                  className: `${a.portalImage} ${
+                                    l.active ? a.portalImageActive : ""
+                                  }`,
+                                })
+                              : a_1(x_1_1, {
+                                  children: [
+                                    e.id === "feed" && H
+                                      ? a_1(aj, {})
+                                      : a_1(e_icon, {}),
+                                    e.id === "notifications" &&
+                                      m > 0 &&
+                                      a_1("span", {
+                                        className: a.badge,
+                                        children: m > 99 ? "99+" : m,
+                                      }),
+                                  ],
+                                }),
+                          }),
+                          a_1("span", {
+                            className: a.label,
+                            children: e.label,
+                          }),
+                        ],
+                      });
+                    },
                   },
-                },
-                e.id
-              );
-            }),
-          ],
-        }),
-        a_1("button", {
-          className: a.createButton,
-          onClick: M,
-          "aria-label": "Создать пост",
-          children: a_1(E, {}),
-        }),
-      ],
-    })
-  );
+                  e.id
+                );
+              }),
+            ],
+          }),
+          a_1("button", {
+            className: a.createButton,
+            onClick: M,
+            "aria-label": "Создать пост",
+            children: a_1(E, {}),
+          }),
+        ],
+      });
 };
 
 export { MobileNavigation as MobileNavigation };

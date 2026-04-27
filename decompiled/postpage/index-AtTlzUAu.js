@@ -39,23 +39,18 @@ const n = {
   notFound: oe,
 };
 
-export function PostPage({ postId: t, comment: m }) {
+export function PostPage({ postId, comment }) {
   const C = A(null);
 
   const s = T(
     () =>
-      m ||
-      new URLSearchParams(window.location.search).get("comment") ||
+      comment ||
       new URLSearchParams(window.location.search).get("comment") ||
       undefined,
-    [m]
+    [comment]
   );
 
-  const {
-    currentPost: r,
-    currentPostError: k,
-    fetchPost: f,
-  } = K_1(
+  const { currentPost, currentPostError, fetchPost } = K_1(
     a2((e) => ({
       currentPost: e.currentPost,
       currentPostError: e.currentPostError,
@@ -64,16 +59,16 @@ export function PostPage({ postId: t, comment: m }) {
   );
 
   const {
-    comments: c,
-    commentsLoading: i,
-    commentsLoadingMore: S,
-    commentsHasMore: w,
-    clearComments: v,
-    fetchComments: l,
-    loadMoreComments: y,
-    toggleCommentLike: H,
-    addComment: d,
-    setHighlightedCommentId: p,
+    comments,
+    commentsLoading,
+    commentsLoadingMore,
+    commentsHasMore,
+    clearComments,
+    fetchComments,
+    loadMoreComments,
+    toggleCommentLike,
+    addComment,
+    setHighlightedCommentId,
   } = a3(
     a2((e) => ({
       comments: e.comments,
@@ -89,49 +84,49 @@ export function PostPage({ postId: t, comment: m }) {
     }))
   );
 
-  if (t && C.current !== t) {
-    C.current = t;
-    v();
+  if (postId && C.current !== postId) {
+    C.current = postId;
+    clearComments();
   }
 
-  const { commentsSort: N, setCommentsSort: b } = a4(
+  const { commentsSort, setCommentsSort } = a4(
     a2((e) => ({
       commentsSort: e.commentsSort,
       setCommentsSort: e.setCommentsSort,
     }))
   );
 
-  const x = c((e) => e.profile?.id);
+  const x = comments((e) => e.profile?.id);
 
-  const F = r?.wallOwnerId === x;
+  const F = currentPost?.wallOwnerId === x;
 
-  y(() => {
+  loadMoreComments(() => {
     if (!s) {
       window.scrollTo(0, 0);
     }
-  }, [t, s]);
+  }, [postId, s]);
 
-  y(() => {
-    if (!t) {
+  loadMoreComments(() => {
+    if (!postId) {
       return;
     }
     let e = false;
 
     (async () => {
-      await f(t);
-      return e || (await l(t));
+      await fetchPost(postId);
+      return e || (await fetchComments(postId));
     })();
 
     return () => {
       e = true;
     };
-  }, [t, f, l]);
+  }, [postId, fetchPost, fetchComments]);
 
-  y(() => {
-    if (s && !i && c.length > 0) {
-      p(s);
+  loadMoreComments(() => {
+    if (s && !commentsLoading && comments.length > 0) {
+      setHighlightedCommentId(s);
     }
-  }, [s, i, c.length, p]);
+  }, [s, commentsLoading, comments.length, setHighlightedCommentId]);
 
   const A = () => {
     if (window.history.length > 1) {
@@ -142,46 +137,49 @@ export function PostPage({ postId: t, comment: m }) {
   };
 
   const T = (e) => {
-    b(e);
+    setCommentsSort(e);
 
-    if (t) {
-      l(t);
+    if (postId) {
+      fetchComments(postId);
     }
   };
 
   const V = () => {
-    if (t && w && !S) {
-      y(t);
+    if (postId && commentsHasMore && !commentsLoadingMore) {
+      loadMoreComments(postId);
     }
   };
 
   const W = (e) => {
-    H(e);
+    toggleCommentLike(e);
   };
 
   const L = async (e) => {
-    if (t) {
-      await d(t, e);
+    if (postId) {
+      await addComment(postId, e);
     }
   };
 
   const P = q_1(
     async (e) => {
-      if (t) {
+      if (postId) {
         try {
           const a = `voice_${Date.now()}.webm`;
           const u = new File([e], a, { type: e.type || "audio/webm" });
-          const D = await m.uploadMedia(u);
-          await d(t, { text: "", attachments: [{ mediaId: D.id }] });
+          const D = await comment.uploadMedia(u);
+          await addComment(postId, {
+            text: "",
+            attachments: [{ mediaId: D.id }],
+          });
         } catch (a) {
           console.error("Failed to send voice message:", a);
         }
       }
     },
-    [d, t]
+    [addComment, postId]
   );
 
-  return k
+  return currentPostError
     ? a("div", {
         className: n.notFound,
         children: [
@@ -192,7 +190,7 @@ export function PostPage({ postId: t, comment: m }) {
           }),
         ],
       })
-    : r
+    : currentPost
     ? a("div", {
         className: n.postPage,
         children: [
@@ -210,16 +208,16 @@ export function PostPage({ postId: t, comment: m }) {
           a("div", {
             className: n.postSection,
             children: [
-              a(W, { className: n.post, post: r, variant: "modal" }),
+              a(W, { className: n.post, post: currentPost, variant: "modal" }),
               a("div", {
                 className: n.commentsSection,
                 "data-comments-section": true,
                 children: a(a6, {
-                  comments: c,
-                  isLoading: i,
-                  isLoadingMore: S,
-                  hasMore: w,
-                  sort: N,
+                  comments: comments,
+                  isLoading: commentsLoading,
+                  isLoadingMore: commentsLoadingMore,
+                  hasMore: commentsHasMore,
+                  sort: commentsSort,
                   onSortChange: T,
                   onLikeComment: W,
                   onAddComment: L,

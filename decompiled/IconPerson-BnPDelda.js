@@ -1,10 +1,10 @@
 import { a } from "./index-BNG2MjJY.js";
 
-export const I = ({ size: l = 24 }) =>
+export const I = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: l,
-    height: l,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 24 24",
     children: a("path", {
@@ -15,11 +15,11 @@ export const I = ({ size: l = 24 }) =>
     }),
   });
 
-const n = ({ size: l = 24 }) =>
+const n = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: l,
-    height: l,
+    width: size,
+    height: size,
     fill: "none",
     viewBox: "0 0 24 24",
     children: a("path", {

@@ -36,8 +36,8 @@ const a = {
   expiredActions: H,
 };
 
-function Z({ email: y, onBack: l }) {
-  const { verifyOtp: p, resendOtp: o } = c_1();
+function Z({ email, onBack }) {
+  const { verifyOtp, resendOtp } = c_1();
   const [m, t] = d(null);
   const [M, E] = d(false);
   const [I, i] = d(false);
@@ -57,7 +57,7 @@ function Z({ email: y, onBack: l }) {
       t(null);
       E(true);
       try {
-        const r = await p(s);
+        const r = await verifyOtp(s);
 
         if (r === "authenticated") {
           if (c_1.getState().status === "needs_profile") {
@@ -92,14 +92,14 @@ function Z({ email: y, onBack: l }) {
         E(false);
       }
     },
-    [p]
+    [verifyOtp]
   );
 
   const A = q_1(async () => {
     t(null);
     i(false);
     try {
-      await o();
+      await resendOtp();
       i(true);
 
       setTimeout(() => i(false), 3000 /* 3e3 */);
@@ -114,12 +114,12 @@ function Z({ email: y, onBack: l }) {
         t("Произошла ошибка. Попробуйте позже");
       }
     }
-  }, [o]);
+  }, [resendOtp]);
 
   const O = q_1(async () => {
     b(true);
     try {
-      await o();
+      await resendOtp();
       d(false);
       i(true);
 
@@ -135,12 +135,12 @@ function Z({ email: y, onBack: l }) {
     } finally {
       b(false);
     }
-  }, [o]);
+  }, [resendOtp]);
 
   const T = q_1(() => {
     d(false);
-    l?.();
-  }, [l]);
+    onBack?.();
+  }, [onBack]);
 
   return a_1("div", {
     className: a.container,
@@ -153,7 +153,7 @@ function Z({ email: y, onBack: l }) {
             className: a.subtitle,
             children: [
               "Мы отправили шестизначный код на почту ",
-              y,
+              email,
               ", чтобы убедиться, что вы – настоящий её владелец.",
             ],
           }),
@@ -166,11 +166,11 @@ function Z({ email: y, onBack: l }) {
           children: "Код отправлен повторно",
         }),
       a_1(O, { onSubmit: g, onResend: A, disabled: M }),
-      l &&
+      onBack &&
         a_1("button", {
           type: "button",
           className: a.backButton,
-          onClick: l,
+          onClick: onBack,
           children: "Назад",
         }),
       R &&

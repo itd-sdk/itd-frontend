@@ -54,8 +54,8 @@ export const Register = (se) => {
   const [m, i] = d(null);
   const [h, l] = d(null);
   const [w, b] = d("credentials");
-  const { register: N, status: C, reset: g } = c_1();
-  const p = C === "loading";
+  const { register, status, reset } = c_1();
+  const p = status === "loading";
 
   const T = (a) => {
     a.preventDefault();
@@ -91,7 +91,7 @@ export const Register = (se) => {
     async (a) => {
       u(false);
       try {
-        await N({ email: o, password: s, turnstileToken: a });
+        await register({ email: o, password: s, turnstileToken: a });
         b("verify");
       } catch (f) {
         if (i(f)) {
@@ -125,13 +125,13 @@ export const Register = (se) => {
         }
       }
     },
-    [o, s, N]
+    [o, s, register]
   );
 
   const B = q_1(() => {
-    g();
+    reset();
     b("credentials");
-  }, [g]);
+  }, [reset]);
 
   return a("div", {
     className: r.page,
@@ -271,7 +271,7 @@ export const Register = (se) => {
             : a(V_1, { email: o, onBack: B }),
         ],
       }),
-      a(C, { isOpen: k, onClose: () => u(false), onVerify: _ }),
+      a(status, { isOpen: k, onClose: () => u(false), onVerify: _ }),
     ],
   });
 };

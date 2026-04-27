@@ -1,10 +1,10 @@
 import { a } from "./index-BNG2MjJY.js";
 
-export const I = ({ size: o = 24 }) =>
+export const I = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: o,
-    height: o,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     children: a("path", {

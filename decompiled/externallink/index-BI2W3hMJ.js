@@ -1,9 +1,9 @@
 import { a5 as a_1, T as T_1, a5, ae, $ } from "./index-BNG2MjJY.js";
 
-const w = ({ size: t = 48 }) =>
+const w = ({ size = 48 }) =>
   a_1("svg", {
-    width: t,
-    height: t,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -53,10 +53,10 @@ const e = {
   secondaryButton: z,
 };
 
-export function ExternalLink({ url: t }) {
+export function ExternalLink({ url }) {
   const c = T_1(() => {
     try {
-      const i = new URLSearchParams(window.location.search).get("url") || t;
+      const i = new URLSearchParams(window.location.search).get("url") || url;
       if (!i) {
         return null;
       }
@@ -68,9 +68,9 @@ export function ExternalLink({ url: t }) {
     } catch {
       return null;
     }
-  }, [t]);
+  }, [url]);
 
-  const { domain: o, fullUrl: u } = T_1(() => {
+  const { domain, fullUrl } = T_1(() => {
     if (!c) {
       return { domain: null, fullUrl: null };
     }
@@ -98,7 +98,7 @@ export function ExternalLink({ url: t }) {
     }
   };
 
-  return !c || !o
+  return !c || !domain
     ? a_1("div", {
         className: e.page,
         children: [
@@ -161,8 +161,8 @@ export function ExternalLink({ url: t }) {
               a_1("div", {
                 className: e.urlBox,
                 children: [
-                  a_1("span", { className: e.domain, children: o }),
-                  a_1("span", { className: e.fullUrl, children: u }),
+                  a_1("span", { className: e.domain, children: domain }),
+                  a_1("span", { className: e.fullUrl, children: fullUrl }),
                 ],
               }),
             ],
@@ -198,7 +198,7 @@ export function ExternalLink({ url: t }) {
               a_1("button", {
                 className: e.primaryButton,
                 onClick: h,
-                children: ["Перейти на ", o],
+                children: ["Перейти на ", domain],
               }),
               a_1("button", {
                 className: e.secondaryButton,

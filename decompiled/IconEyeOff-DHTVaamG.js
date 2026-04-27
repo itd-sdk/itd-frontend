@@ -1,10 +1,10 @@
 import { a } from "./index-BNG2MjJY.js";
 
-const e = ({ size: t = 24 }) =>
+const e = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: t,
-    height: t,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -19,11 +19,11 @@ const e = ({ size: t = 24 }) =>
     ],
   });
 
-export const I = ({ size: t = 24 }) =>
+export const I = ({ size = 24 }) =>
   a("svg", {
     xmlns: "http://www.w3.org/2000/svg",
-    width: t,
-    height: t,
+    width: size,
+    height: size,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",

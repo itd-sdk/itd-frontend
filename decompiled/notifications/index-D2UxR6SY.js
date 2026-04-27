@@ -149,63 +149,63 @@ const G = {
   },
 };
 
-const Fe = ({ type: n }) => {
-  const r = G[n];
+const Fe = ({ type }) => {
+  const G_n = G[n];
 
   const y =
-    r?.badgeColor === "red"
+    G_n?.badgeColor === "red"
       ? l.red
-      : r?.badgeColor === "green"
+      : G_n?.badgeColor === "green"
       ? l.green
-      : r?.badgeColor === "purple"
+      : G_n?.badgeColor === "purple"
       ? l.purple
       : l.blue;
 
   return a("div", {
     className: `${l.badge} ${y}`,
-    children: r?.icon || a(U_1_1, { size: 12 }),
+    children: G_n?.icon || a(U_1_1, { size: 12 }),
   });
 };
 
 function _e({
-  notification: n,
-  isVisuallyUnread: r,
-  onMarkRead: y,
-  onVisible: A,
-  followStatus: p,
-  onFollowToggle: $,
-  isFollowLoading: w,
+  notification,
+  isVisuallyUnread,
+  onMarkRead,
+  onVisible,
+  followStatus,
+  onFollowToggle,
+  isFollowLoading,
 }) {
-  const q = G[n.type];
-  const s = n.payload.actors[0];
-  const S = n.payload.count;
-  const x = A(null);
-  y(() => {
-    if (n.isRead) {
+  const q = G[notification.type];
+  const s = notification.payload.actors[0];
+  const S = notification.payload.count;
+  const x = onVisible(null);
+  onMarkRead(() => {
+    if (notification.isRead) {
       return;
     }
-    const i = x.current;
-    if (!i) {
+    const x_current = x.current;
+    if (!x_current) {
       return;
     }
     const d = new IntersectionObserver(
       (h) => {
         if (h[0].isIntersecting) {
-          A(n.id);
+          onVisible(notification.id);
           d.disconnect();
         }
       },
       { threshold: 0.5 }
     );
-    d.observe(i);
+    d.observe(x_current);
 
     return () => d.disconnect();
-  }, [n.id, n.isRead, A]);
+  }, [notification.id, notification.isRead, onVisible]);
 
   const k = () => {
-    y(n.id);
-    const { type: i, entityId: d, parentEntityId: h, payload: T } = n;
-    let f = T.clickUrl;
+    onMarkRead(notification.id);
+    const { type, entityId, parentEntityId, payload } = notification;
+    let T_clickUrl = payload.clickUrl;
 
     const z = [
       "post_reaction",
@@ -217,43 +217,44 @@ function _e({
 
     const M = ["comment_reaction", "comment_reply", "comment_mention"];
 
-    if (d && s?.username) {
-      if (z.includes(i)) {
-        if (i === "post_comment" && h) {
-          f = `/@${s.username}/post/${h}?comment=${d}`;
+    if (entityId && s?.username) {
+      if (z.includes(type)) {
+        if (type === "post_comment" && parentEntityId) {
+          T_clickUrl = `/@${s.username}/post/${parentEntityId}?comment=${entityId}`;
         } else {
-          f = `/@${s.username}/post/${d}`;
+          T_clickUrl = `/@${s.username}/post/${entityId}`;
         }
-      } else if (M.includes(i)) {
-        if (h) {
-          f = `/@${s.username}/post/${h}?comment=${d}`;
+      } else if (M.includes(type)) {
+        if (parentEntityId) {
+          T_clickUrl = `/@${s.username}/post/${parentEntityId}?comment=${entityId}`;
         } else {
-          f = `/@${s.username}/post/${d}`;
+          T_clickUrl = `/@${s.username}/post/${entityId}`;
         }
       }
     }
 
     if (
-      !f &&
+      !T_clickUrl &&
       s?.username &&
-      ["follow", "follow_request", "follow_accepted"].includes(i)
+      ["follow", "follow_request", "follow_accepted"].includes(type)
     ) {
-      f = `/@${s.username}`;
+      T_clickUrl = `/@${s.username}`;
     }
 
-    if (f) {
-      $(f);
+    if (T_clickUrl) {
+      onFollowToggle(T_clickUrl);
     }
   };
 
-  const R = n.type === "follow" || n.type === "follow_request";
+  const R =
+    notification.type === "follow" || notification.type === "follow_request";
 
-  const m = w
+  const m = isFollowLoading
     ? "loading"
-    : p
-    ? p.isFollowing
+    : followStatus
+    ? followStatus.isFollowing
       ? "following"
-      : p.hasOutgoingRequest
+      : followStatus.hasOutgoingRequest
       ? "requested"
       : "none"
     : "none";
@@ -270,7 +271,9 @@ function _e({
         return "Отменить";
       }
       default: {
-        return p?.isFollowedBy ? "Подписаться в ответ" : "Подписаться";
+        return followStatus?.isFollowedBy
+          ? "Подписаться в ответ"
+          : "Подписаться";
       }
     }
   };
@@ -281,24 +284,24 @@ function _e({
   const v = (i) => {
     i.stopPropagation();
 
-    if (s?.id && !w) {
-      $(s.id);
+    if (s?.id && !isFollowLoading) {
+      onFollowToggle(s.id);
     }
   };
 
   const F = (i) => {
     i.stopPropagation();
     i.preventDefault();
-    y(n.id);
+    onMarkRead(notification.id);
 
     if (s?.username) {
-      $(`/@${s.username}`);
+      onFollowToggle(`/@${s.username}`);
     }
   };
 
   return a("div", {
     ref: x,
-    className: `${l.item} ${r ? l.unread : ""}`,
+    className: `${l.item} ${isVisuallyUnread ? l.unread : ""}`,
     onClick: k,
     role: "button",
     tabIndex: 0,
@@ -315,7 +318,7 @@ function _e({
               src: s?.avatar || "",
               alt: s?.displayName || "User",
               size: "md",
-              badge: a(Fe, { type: n.type }),
+              badge: a(Fe, { type: notification.type }),
             }),
           }),
           a("div", {
@@ -343,12 +346,15 @@ function _e({
                   }),
                 ],
               }),
-              n.payload.entityPreview &&
+              notification.payload.entityPreview &&
                 a("p", {
                   className: l.text,
-                  children: n.payload.entityPreview,
+                  children: notification.payload.entityPreview,
                 }),
-              a("span", { className: l.date, children: ve(n.createdAt) }),
+              a("span", {
+                className: l.date,
+                children: ve(notification.createdAt),
+              }),
             ],
           }),
         ],
@@ -360,7 +366,7 @@ function _e({
           size: "md",
           className: l.btn,
           onClick: v,
-          disabled: w,
+          disabled: isFollowLoading,
           children: [m === "none" && a(E_1, { size: 18 }), C()],
         }),
     ],
@@ -369,26 +375,26 @@ function _e({
 
 export const Notifications = (n) => {
   const {
-    notifications: r,
-    status: y,
-    nextCursor: A,
-    fetchNotifications: p,
-    markAsRead: $,
-    markAsReadSilent: w,
-    markAllAsRead: q,
+    notifications,
+    status,
+    nextCursor,
+    fetchNotifications,
+    markAsRead,
+    markAsReadSilent,
+    markAllAsRead,
   } = l_1();
 
   const s = a1();
-  const S = A(null);
+  const S = nextCursor(null);
   const [x, k] = d(new Set());
-  const R = A(new Set());
-  const b = A(null);
-  const m = A(new Set());
+  const R = nextCursor(new Set());
+  const b = nextCursor(null);
+  const m = nextCursor(new Set());
   const [C, N] = d(new Map());
   const [v, F] = d(new Set());
-  y(() => {
+  status(() => {
     const e = new Set();
-    for (const o of r) {
+    for (const o of notifications) {
       if (!o.isRead) {
         e.add(o.id);
       }
@@ -400,17 +406,17 @@ export const Notifications = (n) => {
       }
       return c;
     });
-  }, [r]);
-  const i = q(() => {
+  }, [notifications]);
+  const i = markAllAsRead(() => {
     const e = Array.from(R.current);
 
     if (e.length !== 0) {
       R.current.clear();
-      w(e);
+      markAsReadSilent(e);
     }
-  }, [w]);
+  }, [markAsReadSilent]);
 
-  y(
+  status(
     () => () => {
       if (b.current) {
         clearTimeout(b.current);
@@ -420,40 +426,38 @@ export const Notifications = (n) => {
 
       if (e.length > 0) {
         R.current.clear();
-        w(e);
+        markAsReadSilent(e);
       }
     },
-    [w]
+    [markAsReadSilent]
   );
 
-  y(() => {
-    p(true);
+  status(() => {
+    fetchNotifications(true);
     m.current.clear();
-  }, [p]);
+  }, [fetchNotifications]);
 
-  y(() => {
+  status(() => {
     const e = ["follow", "follow_request"];
     const o = [];
-    for (const c of r) {
+    for (const c of notifications) {
       if (!e.includes(c.type)) {
         continue;
       }
       const a = c.payload.actors[0];
 
       if (a?.id && !C.has(a.id)) {
-        if (!C.has(a.id)) {
-          o.push([
-            a.id,
-            {
-              isFollowing: a.isFollowing ?? false,
-              isFollowedBy: a.isFollowedBy ?? true,
-              hasOutgoingRequest: false,
-              hasIncomingRequest: false,
-              isBlocking: false,
-              isBlockedBy: false,
-            },
-          ]);
-        }
+        o.push([
+          a.id,
+          {
+            isFollowing: a.isFollowing ?? false,
+            isFollowedBy: a.isFollowedBy ?? true,
+            hasOutgoingRequest: false,
+            hasIncomingRequest: false,
+            isBlocking: false,
+            isBlockedBy: false,
+          },
+        ]);
       }
     }
 
@@ -466,16 +470,16 @@ export const Notifications = (n) => {
         return a;
       });
     }
-  }, [r]);
+  }, [notifications]);
 
   u({
     sentinelRef: S,
-    hasMore: !!A,
-    isLoading: y === "loading",
-    onLoadMore: p,
+    hasMore: !!nextCursor,
+    isLoading: status === "loading",
+    onLoadMore: fetchNotifications,
   });
 
-  const d = q(
+  const d = markAllAsRead(
     (e) => {
       if (!m.current.has(e)) {
         m.current.add(e);
@@ -487,7 +491,7 @@ export const Notifications = (n) => {
     [i]
   );
 
-  const h = q(
+  const h = markAllAsRead(
     (e) => {
       k((o) => {
         const c = new Set(o);
@@ -497,18 +501,18 @@ export const Notifications = (n) => {
 
       if (!m.current.has(e)) {
         m.current.add(e);
-        $([e]);
+        markAsRead([e]);
       }
     },
-    [$]
+    [markAsRead]
   );
 
-  const T = q(() => {
+  const T = markAllAsRead(() => {
     k(new Set());
-    q();
-  }, [q]);
+    markAllAsRead();
+  }, [markAllAsRead]);
 
-  const f = q(
+  const f = markAllAsRead(
     async (e) => {
       if (!v.has(e)) {
         F((o) => new Set(o).add(e));
@@ -561,7 +565,6 @@ export const Notifications = (n) => {
           if (
             o?.status === 409 ||
             o?.code === "CONFLICT" ||
-            o?.code === "CONFLICT" ||
             o?.message?.includes("Already following")
           ) {
             N((a) => {
@@ -596,8 +599,8 @@ export const Notifications = (n) => {
     [C, v]
   );
 
-  const z = y === "loading";
-  const M = r.length === 0 && !z;
+  const z = status === "loading";
+  const M = notifications.length === 0 && !z;
   return a("div", {
     className: l.page,
     children: [
@@ -622,7 +625,7 @@ export const Notifications = (n) => {
         : a("div", {
             className: l.list,
             children: [
-              r.map((e) => {
+              notifications.map((e) => {
                 const o = e.payload.actors[0]?.id;
                 return a(
                   _e,
@@ -638,7 +641,7 @@ export const Notifications = (n) => {
                   e.id
                 );
               }),
-              A &&
+              nextCursor &&
                 a("div", {
                   ref: S,
                   className: l.loadMore,

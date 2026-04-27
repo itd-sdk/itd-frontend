@@ -24,19 +24,19 @@ const c = {
 };
 
 const F = ({
-  label: i = "Код с почты",
-  error: o,
-  buttonText: d = "Продолжить",
-  resendText: p = "Отправить код повторно",
-  countdownText: u = (l) => `Получить новый код через ${l}с`,
-  countdownDuration: a = 90,
-  onSubmit: m,
-  onResend: h,
-  disabled: s = false,
+  label = "Код с почты",
+  error,
+  buttonText = "Продолжить",
+  resendText = "Отправить код повторно",
+  countdownText = (l) => `Получить новый код через ${l}с`,
+  countdownDuration = 90,
+  onSubmit,
+  onResend,
+  disabled = false,
 }) => {
-  const [l, g] = d(["", "", "", "", "", ""]);
-  const [w, T] = d(a);
-  const [k, B] = d(false);
+  const [l, g] = buttonText(["", "", "", "", "", ""]);
+  const [w, T] = buttonText(countdownDuration);
+  const [k, B] = buttonText(false);
   const f = A([]);
 
   d_1(() => {
@@ -95,31 +95,31 @@ const F = ({
   const D = (e) => {
     e.preventDefault();
     const t = l.join("");
-    m?.(t);
+    onSubmit?.(t);
   };
 
   const A = () => {
     if (k) {
-      h?.();
-      T(a);
+      onResend?.();
+      T(countdownDuration);
       B(false);
     }
   };
 
   const x = l.every((e) => e !== "");
 
-  return a("form", {
+  return countdownDuration("form", {
     className: c.form,
     onSubmit: D,
     children: [
-      a("div", {
+      countdownDuration("div", {
         className: c.inputGroup,
         children: [
-          a("label", { className: c.label, children: i }),
-          a("div", {
+          countdownDuration("label", { className: c.label, children: label }),
+          countdownDuration("div", {
             className: c.codeInputs,
             children: l.map((e, t) =>
-              a(
+              countdownDuration(
                 "input",
                 {
                   ref: (r) => {
@@ -128,51 +128,52 @@ const F = ({
                   type: "text",
                   inputMode: "numeric",
                   pattern: "[0-9]*",
-                  className: `${c.codeInput} ${o ? c.error : ""}`,
+                  className: `${c.codeInput} ${error ? c.error : ""}`,
                   value: e,
                   onInput: (r) => v(t, r.target.value),
                   onKeyDown: (r) => L(t, r),
                   onPaste: R,
                   maxLength: 1,
-                  disabled: s,
+                  disabled: disabled,
                 },
                 t
               )
             ),
           }),
-          o && a("p", { className: c.errorText, children: o }),
+          error &&
+            countdownDuration("p", { className: c.errorText, children: error }),
         ],
       }),
-      a(B, {
+      countdownDuration(B, {
         type: "submit",
         variant: "primary",
         size: "lg",
         fullWidth: true,
         className: c.submitButton,
-        disabled: !x || s,
-        children: d,
+        disabled: !x || disabled,
+        children: buttonText,
       }),
-      a("p", {
+      countdownDuration("p", {
         className: c.resendLink,
         children: k
-          ? a("button", {
+          ? countdownDuration("button", {
               type: "button",
               className: c.resendButton,
               onClick: A,
-              disabled: s,
-              children: p,
+              disabled: disabled,
+              children: resendText,
             })
-          : a(k, { children: u(w) }),
+          : countdownDuration(k, { children: countdownText(w) }),
       }),
     ],
   });
 };
 
 const W = "0x4AAAAAACHhxczw6fJGwPBg";
-function Y({ onVerify: i, onExpire: o, onError: d, theme: p = "auto" }) {
+function Y({ onVerify, onExpire, onError, theme = "auto" }) {
   const u = A(null);
   const a = A(null);
-  const [m, h] = d(false);
+  const [m, h] = onError(false);
 
   d_1(() => {
     window.onTurnstileLoad = () => {
@@ -202,21 +203,21 @@ function Y({ onVerify: i, onExpire: o, onError: d, theme: p = "auto" }) {
   }, []);
 
   d_1(() => {
-    if (!m || !u.current || !u.current || a.current) {
+    if (!m || !u.current || a.current) {
       return;
     }
-    const s = window.turnstile;
+    const window_turnstile = window.turnstile;
 
-    if (s) {
-      a.current = s.render(u.current, {
+    if (window_turnstile) {
+      a.current = window_turnstile.render(u.current, {
         sitekey: W,
-        theme: p,
-        callback: i,
-        "expired-callback": o,
-        "error-callback": d,
+        theme: theme,
+        callback: onVerify,
+        "expired-callback": onExpire,
+        "error-callback": onError,
       });
     }
-  }, [m, i, o, d, p]);
+  }, [m, onVerify, onExpire, onError, theme]);
 
   return a("div", {
     style: { display: "flex", width: "300px", height: "65px" },
@@ -226,16 +227,16 @@ function Y({ onVerify: i, onExpire: o, onError: d, theme: p = "auto" }) {
 const Z = "CrD5";
 const _ = { modal: Z };
 
-export function C({ isOpen: i, onClose: o, onVerify: d }) {
-  if (!i) {
+export function C({ isOpen, onClose, onVerify }) {
+  if (!isOpen) {
     return null;
   }
   const p = (u) => {
-    d(u);
-    o();
+    onVerify(u);
+    onClose();
   };
   return a(B_1, {
-    onClose: o,
+    onClose: onClose,
     showHeader: false,
     className: _.modal,
     frameless: true,

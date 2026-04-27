@@ -23,12 +23,12 @@ function zt(m, w, B) {
   D.current = R;
 
   const A = q(() => {
-    const u = w.current;
-    const s = m.current;
-    if (!u || !s) {
+    const w_current = w.current;
+    const m_current = m.current;
+    if (!w_current || !m_current) {
       return;
     }
-    const f = u.getImageData(0, 0, s.width, s.height);
+    const f = w_current.getImageData(0, 0, m_current.width, m_current.height);
 
     N((d) => {
       const T = d.slice(0, D.current + 1);
@@ -46,20 +46,20 @@ function zt(m, w, B) {
 
   const U = q(() => {
     N((u) => {
-      const s = D.current;
-      if (s <= 0) {
+      const D_current = D.current;
+      if (D_current <= 0) {
         return u;
       }
-      const f = w.current;
-      if (!f) {
+      const w_current = w.current;
+      if (!w_current) {
         return u;
       }
-      const d = u[s - 1];
+      const d = u[D_current - 1];
 
       if (d) {
-        f.putImageData(d, 0, 0);
-        D.current = s - 1;
-        Y(s - 1);
+        w_current.putImageData(d, 0, 0);
+        D.current = D_current - 1;
+        Y(D_current - 1);
         B.current?.();
       }
 
@@ -69,20 +69,20 @@ function zt(m, w, B) {
 
   const ct = q(() => {
     N((u) => {
-      const s = D.current;
-      if (s >= u.length - 1) {
+      const D_current = D.current;
+      if (D_current >= u.length - 1) {
         return u;
       }
-      const f = w.current;
-      if (!f) {
+      const w_current = w.current;
+      if (!w_current) {
         return u;
       }
-      const d = u[s + 1];
+      const d = u[D_current + 1];
 
       if (d) {
-        f.putImageData(d, 0, 0);
-        D.current = s + 1;
-        Y(s + 1);
+        w_current.putImageData(d, 0, 0);
+        D.current = D_current + 1;
+        Y(D_current + 1);
         B.current?.();
       }
 
@@ -113,11 +113,11 @@ const Kt = {
 };
 
 export function DrawingCanvas({
-  isOpen: m,
-  onClose: w,
-  onSave: B,
-  mode: O = "post",
-  saveButtonText: N,
+  isOpen,
+  onClose,
+  onSave,
+  mode = "post",
+  saveButtonText,
 }) {
   const [R, Y] = d(false);
   const [D, A] = d(false);
@@ -129,8 +129,8 @@ export function DrawingCanvas({
 
   const ct = q(() => {
     A(false);
-    w();
-  }, [w]);
+    onClose();
+  }, [onClose]);
 
   const _ = q(() => {
     A(false);
@@ -146,142 +146,145 @@ export function DrawingCanvas({
   const [H, Ct] = d(4);
   const Z = A(false);
   const S = A(null);
-  const { width: g, height: x } = Kt[O];
+  const { width, height } = Kt[O];
 
   const {
-    zoom: dt,
-    panOffset: Mt,
-    zoomRef: E,
-    panOffsetRef: M,
-    isPanningRef: J,
-    panStartRef: j,
-    pinchRef: F,
-    updateTransform: p,
-    zoomToPoint: X,
-    fitAndCenter: Rt,
-    zoomIn: Dt,
-    zoomOut: Tt,
-    zoomReset: bt,
-  } = al(s, g, x);
+    zoom,
+    panOffset,
+    zoomRef,
+    panOffsetRef,
+    isPanningRef,
+    panStartRef,
+    pinchRef,
+    updateTransform,
+    zoomToPoint,
+    fitAndCenter,
+    zoomIn,
+    zoomOut,
+    zoomReset,
+  } = al(s, width, height);
 
   const V = q(() => {
-    const t = u.current;
-    const n = f.current;
-    if (!t || !n) {
+    const u_current = u.current;
+    const f_current = f.current;
+    if (!u_current || !f_current) {
       return;
     }
-    const e = t.getContext("2d");
+    const e = u_current.getContext("2d");
     if (!e) {
       return;
     }
-    const i = T.current;
-    const a = t.width / i;
-    const o = t.height / i;
-    const c = E.current;
-    const l = M.current;
+    const T_current = T.current;
+    const a = u_current.width / T_current;
+    const o = u_current.height / T_current;
+    const E_current = zoomRef.current;
+    const M_current = panOffsetRef.current;
     e.save();
-    e.setTransform(i, 0, 0, i, 0, 0);
+    e.setTransform(T_current, 0, 0, T_current, 0, 0);
     e.clearRect(0, 0, a, o);
-    e.translate(l.x, l.y);
-    e.scale(c, c);
+    e.translate(M_current.x, M_current.y);
+    e.scale(E_current, E_current);
     e.shadowColor = "rgba(0, 0, 0, 0.15)";
-    e.shadowBlur = 20 / c;
+    e.shadowBlur = 20 / E_current;
     e.shadowOffsetX = 0;
-    e.shadowOffsetY = 4 / c;
+    e.shadowOffsetY = 4 / E_current;
     e.fillStyle = "#FFFFFF";
-    e.fillRect(0, 0, g, x);
+    e.fillRect(0, 0, width, height);
     e.shadowColor = "transparent";
     e.shadowBlur = 0;
     e.shadowOffsetY = 0;
-    e.imageSmoothingEnabled = c < 2;
-    e.drawImage(n, 0, 0, g, x);
+    e.imageSmoothingEnabled = E_current < 2;
+    e.drawImage(f_current, 0, 0, width, height);
     e.imageSmoothingEnabled = true;
-    const r = S.current;
-    if (r) {
-      e.strokeStyle = r.color;
-      e.lineWidth = r.lineWidth;
+    const S_current = S.current;
+    if (S_current) {
+      e.strokeStyle = S_current.color;
+      e.lineWidth = S_current.lineWidth;
       e.lineCap = "round";
       e.lineJoin = "round";
       e.beginPath();
 
-      if (r.tool === "line") {
-        e.moveTo(r.start.x, r.start.y);
-        e.lineTo(r.current.x, r.current.y);
-      } else if (r.tool === "rectangle") {
+      if (S_current.tool === "line") {
+        e.moveTo(S_current.start.x, S_current.start.y);
+        e.lineTo(S_current.current.x, S_current.current.y);
+      } else if (S_current.tool === "rectangle") {
         e.rect(
-          r.start.x,
-          r.start.y,
-          r.current.x - r.start.x,
-          r.current.y - r.start.y
+          S_current.start.x,
+          S_current.start.y,
+          S_current.current.x - S_current.start.x,
+          S_current.current.y - S_current.start.y
         );
-      } else if (r.tool === "circle") {
-        const z = Math.hypot(r.current.x - r.start.x, r.current.y - r.start.y);
-        e.arc(r.start.x, r.start.y, z, 0, Math.PI * 2);
+      } else if (S_current.tool === "circle") {
+        const z = Math.hypot(
+          S_current.current.x - S_current.start.x,
+          S_current.current.y - S_current.start.y
+        );
+        e.arc(S_current.start.x, S_current.start.y, z, 0, Math.PI * 2);
       }
 
       e.stroke();
     }
     e.restore();
-  }, [g, x]);
+  }, [width, height]);
 
   const k = A(V);
   k.current = V;
 
-  const {
-    saveToHistory: $,
-    undo: st,
-    redo: G,
-    canUndo: Et,
-    canRedo: Ft,
-    initHistory: St,
-  } = zt(f, d, k);
+  const { saveToHistory, undo, redo, canUndo, canRedo, initHistory } = zt(
+    f,
+    d,
+    k
+  );
 
-  const ht = Rt;
+  const ht = fitAndCenter;
 
   y_1(() => {
-    if (!m || !u.current || !u.current || !s.current) {
+    if (!isOpen || !u.current || !s.current) {
       return;
     }
-    const t = u.current;
-    const n = s.current;
+    const u_current = u.current;
+    const s_current = s.current;
     const e = window.devicePixelRatio || 1;
     T.current = e;
-    const i = n.getBoundingClientRect();
-    t.width = i.width * e;
-    t.height = i.height * e;
+    const i = s_current.getBoundingClientRect();
+    u_current.width = i.width * e;
+    u_current.height = i.height * e;
     const a = document.createElement("canvas");
-    a.width = g * e;
-    a.height = x * e;
+    a.width = width * e;
+    a.height = height * e;
     const o = a.getContext("2d", { willReadFrequently: true });
     if (!o) {
       return;
     }
     o.scale(e, e);
     o.fillStyle = "#FFFFFF";
-    o.fillRect(0, 0, g, x);
+    o.fillRect(0, 0, width, height);
     f.current = a;
     d.current = o;
-    St(o, a);
+    initHistory(o, a);
     let c = true;
     const l = new ResizeObserver((z) => {
       for (const et of z) {
-        const { width: L, height: K } = et.contentRect;
-        if (!(L === 0 || K === 0)) {
-          t.width = L * T.current;
-          t.height = K * T.current;
+        const { width: width_1, height: height_1 } = et.contentRect;
+        if (!(width_1 === 0 || height_1 === 0)) {
+          u_current.width = width_1 * T.current;
+          u_current.height = height_1 * T.current;
 
           if (c) {
-            const nt = (L - 64) / g;
-            const ut = (K - 64) / x;
+            const nt = (width_1 - 64) / width;
+            const ut = (height_1 - 64) / height;
             const W = Math.max(am, Math.min(nt, ut));
-            p(W, { x: (L - g * W) / 2, y: (K - x * W) / 2 });
+            updateTransform(W, {
+              x: (width_1 - width * W) / 2,
+              y: (height_1 - height * W) / 2,
+            });
           }
 
           k.current();
         }
       }
     });
-    l.observe(n);
+    l.observe(s_current);
     const r = setTimeout(() => {
       c = false;
     }, 500);
@@ -291,18 +294,18 @@ export function DrawingCanvas({
       f.current = null;
       d.current = null;
     };
-  }, [m, g, x]);
+  }, [isOpen, width, height]);
 
   y_1(() => {
     V();
-  }, [dt, Mt, V]);
+  }, [zoom, panOffset, V]);
 
   const Q = q((t) => {
-    const n = u.current;
-    if (!n) {
+    const u_current = u.current;
+    if (!u_current) {
       return { x: 0, y: 0 };
     }
-    const e = n.getBoundingClientRect();
+    const e = u_current.getBoundingClientRect();
     let i;
     let a;
 
@@ -315,8 +318,8 @@ export function DrawingCanvas({
     }
 
     return {
-      x: (i - e.left - M.current.x) / E.current,
-      y: (a - e.top - M.current.y) / E.current,
+      x: (i - e.left - panOffsetRef.current.x) / zoomRef.current,
+      y: (a - e.top - panOffsetRef.current.y) / zoomRef.current,
     };
   }, []);
 
@@ -329,20 +332,20 @@ export function DrawingCanvas({
         return;
       }
       t.preventDefault();
-      const n = d.current;
-      if (!n) {
+      const d_current = d.current;
+      if (!d_current) {
         return;
       }
       const e = Q(t);
       Z.current = true;
 
       if (b === "brush" || b === "eraser") {
-        n.beginPath();
-        n.moveTo(e.x, e.y);
-        n.lineCap = "round";
-        n.lineJoin = "round";
-        n.lineWidth = H;
-        n.strokeStyle = b === "eraser" ? "#FFFFFF" : q;
+        d_current.beginPath();
+        d_current.moveTo(e.x, e.y);
+        d_current.lineCap = "round";
+        d_current.lineJoin = "round";
+        d_current.lineWidth = H;
+        d_current.strokeStyle = b === "eraser" ? "#FFFFFF" : q;
       } else {
         S.current = {
           start: e,
@@ -364,12 +367,12 @@ export function DrawingCanvas({
       t.preventDefault();
       const n = Q(t);
       if (b === "brush" || b === "eraser") {
-        const e = d.current;
-        if (!e) {
+        const d_current = d.current;
+        if (!d_current) {
           return;
         }
-        e.lineTo(n.x, n.y);
-        e.stroke();
+        d_current.lineTo(n.x, n.y);
+        d_current.stroke();
         k.current();
       } else {
         if (S.current) {
@@ -386,41 +389,47 @@ export function DrawingCanvas({
       return;
     }
     Z.current = false;
-    const t = S.current;
-    if (t) {
-      const n = d.current;
-      if (n) {
-        n.strokeStyle = t.color;
-        n.lineWidth = t.lineWidth;
-        n.lineCap = "round";
-        n.lineJoin = "round";
-        n.beginPath();
+    const S_current = S.current;
+    if (S_current) {
+      const d_current = d.current;
+      if (d_current) {
+        d_current.strokeStyle = S_current.color;
+        d_current.lineWidth = S_current.lineWidth;
+        d_current.lineCap = "round";
+        d_current.lineJoin = "round";
+        d_current.beginPath();
 
-        if (t.tool === "line") {
-          n.moveTo(t.start.x, t.start.y);
-          n.lineTo(t.current.x, t.current.y);
-        } else if (t.tool === "rectangle") {
-          n.rect(
-            t.start.x,
-            t.start.y,
-            t.current.x - t.start.x,
-            t.current.y - t.start.y
+        if (S_current.tool === "line") {
+          d_current.moveTo(S_current.start.x, S_current.start.y);
+          d_current.lineTo(S_current.current.x, S_current.current.y);
+        } else if (S_current.tool === "rectangle") {
+          d_current.rect(
+            S_current.start.x,
+            S_current.start.y,
+            S_current.current.x - S_current.start.x,
+            S_current.current.y - S_current.start.y
           );
-        } else if (t.tool === "circle") {
+        } else if (S_current.tool === "circle") {
           const e = Math.hypot(
-            t.current.x - t.start.x,
-            t.current.y - t.start.y
+            S_current.current.x - S_current.start.x,
+            S_current.current.y - S_current.start.y
           );
-          n.arc(t.start.x, t.start.y, e, 0, Math.PI * 2);
+          d_current.arc(
+            S_current.start.x,
+            S_current.start.y,
+            e,
+            0,
+            Math.PI * 2
+          );
         }
 
-        n.stroke();
+        d_current.stroke();
       }
       S.current = null;
     }
-    $();
+    saveToHistory();
     k.current();
-  }, [$]);
+  }, [saveToHistory]);
 
   const mt = A(it);
   const vt = A(tt);
@@ -429,31 +438,34 @@ export function DrawingCanvas({
   const Yt = q((t) => {
     if (t.button === 1) {
       t.preventDefault();
-      J.current = true;
-      j.current = { x: t.clientX, y: t.clientY };
+      isPanningRef.current = true;
+      panStartRef.current = { x: t.clientX, y: t.clientY };
     }
   }, []);
 
   y_1(() => {
-    if (!m) {
+    if (!isOpen) {
       return;
     }
 
     const t = (e) => {
-      if (J.current) {
-        const i = e.clientX - j.current.x;
-        const a = e.clientY - j.current.y;
-        j.current = { x: e.clientX, y: e.clientY };
-        const o = M.current;
-        p(E.current, { x: o.x + i, y: o.y + a });
+      if (isPanningRef.current) {
+        const i = e.clientX - panStartRef.current.x;
+        const a = e.clientY - panStartRef.current.y;
+        panStartRef.current = { x: e.clientX, y: e.clientY };
+        const M_current = panOffsetRef.current;
+        updateTransform(zoomRef.current, {
+          x: M_current.x + i,
+          y: M_current.y + a,
+        });
         return;
       }
       mt.current(e);
     };
 
     const n = () => {
-      if (J.current) {
-        J.current = false;
+      if (isPanningRef.current) {
+        isPanningRef.current = false;
         return;
       }
       vt.current();
@@ -466,49 +478,55 @@ export function DrawingCanvas({
       window.removeEventListener("mousemove", t);
       window.removeEventListener("mouseup", n);
     };
-  }, [m, p]);
+  }, [isOpen, updateTransform]);
 
   y_1(() => {
-    if (!m) {
+    if (!isOpen) {
       return;
     }
     const t = (n) => {
       if ((n.ctrlKey || n.metaKey) && n.key === "z") {
         n.preventDefault();
-        n.shiftKey ? G() : st();
+        n.shiftKey ? redo() : undo();
       }
 
       if ((n.ctrlKey || n.metaKey) && n.key === "y") {
         n.preventDefault();
-        G();
+        redo();
       }
 
       if ((n.ctrlKey || n.metaKey) && (n.key === "=" || n.key === "+")) {
         n.preventDefault();
-        const e = s.current;
-        if (!e) {
+        const s_current = s.current;
+        if (!s_current) {
           return;
         }
-        const i = e.getBoundingClientRect();
+        const i = s_current.getBoundingClientRect();
         const a = i.width / 2;
         const o = i.height / 2;
-        const c = E.current;
-        const l = Math.min(aq, c + an);
-        p(l, X(c, l, M.current, a, o));
+        const E_current = zoomRef.current;
+        const l = Math.min(aq, E_current + an);
+        updateTransform(
+          l,
+          zoomToPoint(E_current, l, panOffsetRef.current, a, o)
+        );
       }
 
       if ((n.ctrlKey || n.metaKey) && n.key === "-") {
         n.preventDefault();
-        const e = s.current;
-        if (!e) {
+        const s_current = s.current;
+        if (!s_current) {
           return;
         }
-        const i = e.getBoundingClientRect();
+        const i = s_current.getBoundingClientRect();
         const a = i.width / 2;
         const o = i.height / 2;
-        const c = E.current;
-        const l = Math.max(am, c - an);
-        p(l, X(c, l, M.current, a, o));
+        const E_current = zoomRef.current;
+        const l = Math.max(am, E_current - an);
+        updateTransform(
+          l,
+          zoomToPoint(E_current, l, panOffsetRef.current, a, o)
+        );
       }
 
       if ((n.ctrlKey || n.metaKey) && n.key === "0") {
@@ -519,47 +537,50 @@ export function DrawingCanvas({
     window.addEventListener("keydown", t);
 
     return () => window.removeEventListener("keydown", t);
-  }, [m, st, G, p, X, ht]);
+  }, [isOpen, undo, redo, updateTransform, zoomToPoint, ht]);
 
   y_1(() => {
-    if (!m) {
+    if (!isOpen) {
       return;
     }
-    const t = s.current;
-    if (!t) {
+    const s_current = s.current;
+    if (!s_current) {
       return;
     }
     const n = (e) => {
       e.preventDefault();
-      const i = t.getBoundingClientRect();
+      const i = s_current.getBoundingClientRect();
       const a = e.clientX - i.left;
       const o = e.clientY - i.top;
       if (e.ctrlKey || e.metaKey) {
-        const c = E.current;
+        const E_current = zoomRef.current;
         const l = e.deltaY > 0 ? -an : an;
-        const r = Math.min(aq, Math.max(am, c + l));
-        if (r === c) {
+        const r = Math.min(aq, Math.max(am, E_current + l));
+        if (r === E_current) {
           return;
         }
-        p(r, X(c, r, M.current, a, o));
+        updateTransform(
+          r,
+          zoomToPoint(E_current, r, panOffsetRef.current, a, o)
+        );
       } else {
-        p(E.current, {
-          x: M.current.x - e.deltaX,
-          y: M.current.y - e.deltaY,
+        updateTransform(zoomRef.current, {
+          x: panOffsetRef.current.x - e.deltaX,
+          y: panOffsetRef.current.y - e.deltaY,
         });
       }
     };
-    t.addEventListener("wheel", n, { passive: false });
+    s_current.addEventListener("wheel", n, { passive: false });
 
-    return () => t.removeEventListener("wheel", n);
-  }, [m, p, X]);
+    return () => s_current.removeEventListener("wheel", n);
+  }, [isOpen, updateTransform, zoomToPoint]);
 
   y_1(() => {
-    if (!m) {
+    if (!isOpen) {
       return;
     }
-    const t = s.current;
-    if (!t) {
+    const s_current = s.current;
+    if (!s_current) {
       return;
     }
 
@@ -575,10 +596,10 @@ export function DrawingCanvas({
           S.current = null;
         }
 
-        const c = t.getBoundingClientRect();
+        const c = s_current.getBoundingClientRect();
         const l = o.touches[0];
         const r = o.touches[1];
-        F.current = {
+        pinchRef.current = {
           dist: n(l, r),
           midX: (l.clientX + r.clientX) / 2 - c.left,
           midY: (l.clientY + r.clientY) / 2 - c.top,
@@ -587,65 +608,71 @@ export function DrawingCanvas({
     };
 
     const i = (o) => {
-      if (o.touches.length === 2 && F.current) {
+      if (o.touches.length === 2 && pinchRef.current) {
         o.preventDefault();
-        const c = t.getBoundingClientRect();
+        const c = s_current.getBoundingClientRect();
         const l = o.touches[0];
         const r = o.touches[1];
         const z = n(l, r);
         const et = (l.clientX + r.clientX) / 2 - c.left;
         const L = (l.clientY + r.clientY) / 2 - c.top;
-        const K = z / F.current.dist;
-        const at = E.current;
-        const nt = Math.min(aq, Math.max(am, at * K));
-        const ut = et - F.current.midX;
-        const W = L - F.current.midY;
-        const yt = X(at, nt, M.current, F.current.midX, F.current.midY);
-        p(nt, { x: yt.x + ut, y: yt.y + W });
-        F.current = { dist: z, midX: et, midY: L };
+        const K = z / pinchRef.current.dist;
+        const E_current = zoomRef.current;
+        const nt = Math.min(aq, Math.max(am, E_current * K));
+        const ut = et - pinchRef.current.midX;
+        const W = L - pinchRef.current.midY;
+        const yt = zoomToPoint(
+          E_current,
+          nt,
+          panOffsetRef.current,
+          pinchRef.current.midX,
+          pinchRef.current.midY
+        );
+        updateTransform(nt, { x: yt.x + ut, y: yt.y + W });
+        pinchRef.current = { dist: z, midX: et, midY: L };
       }
     };
 
     const a = (o) => {
       if (o.touches.length < 2) {
-        F.current = null;
+        pinchRef.current = null;
       }
     };
 
-    t.addEventListener("touchstart", e, { passive: false });
-    t.addEventListener("touchmove", i, { passive: false });
-    t.addEventListener("touchend", a);
-    t.addEventListener("touchcancel", a);
+    s_current.addEventListener("touchstart", e, { passive: false });
+    s_current.addEventListener("touchmove", i, { passive: false });
+    s_current.addEventListener("touchend", a);
+    s_current.addEventListener("touchcancel", a);
 
     return () => {
-      t.removeEventListener("touchstart", e);
-      t.removeEventListener("touchmove", i);
-      t.removeEventListener("touchend", a);
-      t.removeEventListener("touchcancel", a);
+      s_current.removeEventListener("touchstart", e);
+      s_current.removeEventListener("touchmove", i);
+      s_current.removeEventListener("touchend", a);
+      s_current.removeEventListener("touchcancel", a);
     };
-  }, [m, p, X]);
+  }, [isOpen, updateTransform, zoomToPoint]);
 
   const Xt = q(() => {
-    const t = d.current;
+    const d_current = d.current;
 
-    if (t) {
-      t.fillStyle = "#FFFFFF";
-      t.fillRect(0, 0, g, x);
-      $();
+    if (d_current) {
+      d_current.fillStyle = "#FFFFFF";
+      d_current.fillRect(0, 0, width, height);
+      saveToHistory();
       k.current();
     }
-  }, [g, x, $]);
+  }, [width, height, saveToHistory]);
 
   const kt = async () => {
-    const t = f.current;
-    if (!t || R) {
+    const f_current = f.current;
+    if (!f_current || R) {
       return;
     }
-    const n = t.toDataURL("image/png");
+    const n = f_current.toDataURL("image/png");
     Y(true);
     try {
-      await B(n);
-      w();
+      await onSave(n);
+      onClose();
     } catch (e) {
       console.error("Failed to save drawing:", e);
     } finally {
@@ -653,11 +680,11 @@ export function DrawingCanvas({
     }
   };
 
-  return m
+  return isOpen
     ? a(k, {
         children: [
-          a(M, {
-            onClose: w,
+          a(panOffsetRef, {
+            onClose: onClose,
             onBeforeClose: U,
             showHeader: false,
             contentClassName: ao.modalContent,
@@ -669,17 +696,17 @@ export function DrawingCanvas({
                   tool: b,
                   color: q,
                   brushSize: H,
-                  zoom: dt,
-                  canUndo: Et,
-                  canRedo: Ft,
+                  zoom: zoom,
+                  canUndo: canUndo,
+                  canRedo: canRedo,
                   onToolChange: xt,
                   onColorChange: pt,
                   onBrushSizeChange: Ct,
-                  onZoomIn: Dt,
-                  onZoomOut: Tt,
-                  onZoomReset: bt,
-                  onUndo: st,
-                  onRedo: G,
+                  onZoomIn: zoomIn,
+                  onZoomOut: zoomOut,
+                  onZoomReset: zoomReset,
+                  onUndo: undo,
+                  onRedo: redo,
                   onClear: Xt,
                 }),
                 a("div", {
@@ -711,8 +738,8 @@ export function DrawingCanvas({
                       disabled: R,
                       children: R
                         ? a(k, { children: [a(aj, {}), "Загрузка..."] })
-                        : N ||
-                          (O === "banner"
+                        : saveButtonText ||
+                          (mode === "banner"
                             ? "Загрузить баннер"
                             : "Добавить рисунок"),
                     }),

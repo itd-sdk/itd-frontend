@@ -50,7 +50,7 @@ const y = {
     }
     const i = await ab.get(ac.users.topClans);
 
-    const t = (i.clans || i.data || i.data || []).map((n) => ({
+    const t = (i.clans || i.data || []).map((n) => ({
       ...n,
       count: n.count ?? n.memberCount ?? 0,
     }));
@@ -66,10 +66,7 @@ const y = {
     }
 
     const n = await ab.get(`${ac.users.search}?${t.toString()}`);
-    return {
-      data: n.data?.users || n.users || n.users || [],
-      nextCursor: null,
-    };
+    return { data: n.data?.users || n.users || [], nextCursor: null };
   },
   async globalSearch(c, i = 5, r = 5) {
     const t = new URLSearchParams({
