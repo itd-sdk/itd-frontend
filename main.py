@@ -153,7 +153,7 @@ all_js_files = [
 print(f'decompiling {len(all_js_files)} JS files...')
 makedirs('decompiled_tmp', exist_ok=True)
 run(
-    ['npx', '@wakaru/cli', 'unminify'] + all_js_files + ['-o', 'decompiled_tmp/', '-f'],
+    ['wakaru', 'unminify'] + all_js_files + ['-o', 'decompiled_tmp/', '-f'],
     shell=True, stdout=PIPE, stderr=PIPE
 )
 
