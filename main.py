@@ -153,8 +153,7 @@ all_js_files = [
 print(f'decompiling {len(all_js_files)} JS files...')
 makedirs('decompiled_tmp', exist_ok=True)
 run(
-    ['wakaru', 'unminify'] + all_js_files + ['-o', 'decompiled_tmp/', '-f'],
-    shell=True, stdout=PIPE, stderr=PIPE
+    ['wakaru', 'unminify'] + all_js_files + ['-o', 'decompiled_tmp/', '-f'], check=True
 )
 
 # Find all files wakaru produced (may mirror directory structure)
@@ -217,4 +216,3 @@ for js_file in glob_module.glob('raw/**/*.js', recursive=True):
 
 print(f'extracted {svg_count} SVGs')
 print('done')
-
