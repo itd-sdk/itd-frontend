@@ -1,0 +1,145 @@
+.xg7Z {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:20px
+}
+.axmb {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:358px;
+    max-width:100%
+}
+.HhEh {
+    font-size:32px;
+    font-weight:700;
+    color:var(--text-primary);
+    margin-bottom:48px
+}
+.iH7h {
+    width:100%
+}
+.V7hO {
+    margin-bottom:48px
+}
+.gSBZ {
+    font-size:24px;
+    font-weight:500;
+    color:var(--text-primary);
+    margin:0 0 8px
+}
+.drNE {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-secondary);
+    margin:0
+}
+.UW8j {
+    width:100%;
+    padding:12px 16px;
+    margin-bottom:24px;
+    background:#ef44441a;
+    border:1px solid rgba(239,68,68,.3);
+    border-radius:12px;
+    color:#ef4444;
+    font-size:14px;
+    text-align:center
+}
+.kwW0 {
+    display:flex;
+    flex-direction:column;
+    gap:16px
+}
+.X3SS {
+    display:flex;
+    flex-direction:column;
+    gap:12px
+}
+.rEGb {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-primary)
+}
+.mekR {
+    position:relative;
+    width:100%
+}
+.mekR .Bmhx {
+    padding-right:48px
+}
+.Bmhx {
+    width:100%;
+    padding:16px;
+    background:transparent;
+    border:1px solid var(--border-color);
+    border-radius:16px;
+    font-size:16px;
+    font-family:inherit;
+    color:var(--text-primary);
+    outline:none;
+    transition:border-color .2s ease;
+    box-sizing:border-box
+}
+.Bmhx::placeholder {
+    color:var(--text-secondary)
+}
+.Bmhx:focus {
+    border-color:#fff6
+}
+:root .Bmhx:focus {
+    border-color:#0006
+}
+[data-theme=dark] .Bmhx:focus {
+    border-color:#fff6
+}
+.Rq5p {
+    border-color:#ef4444!important
+}
+.eZVX {
+    font-size:13px;
+    color:#ef4444;
+    margin-top:-4px
+}
+.FgsJ {
+    font-size:13px;
+    color:var(--text-secondary);
+    margin-top:-4px
+}
+.T5fX {
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    background:transparent;
+    border:none;
+    color:var(--text-secondary);
+    cursor:pointer;
+    transition:color .2s ease
+}
+.T5fX:hover {
+    color:var(--text-primary)
+}
+.URbT {
+    margin-top:36px
+}
+.lujn {
+    margin-top:18px;
+    font-size:14px;
+    color:var(--text-secondary);
+    text-align:center
+}
+.lujn a {
+    color:var(--accent-primary);
+    text-decoration:none;
+    font-weight:500
+}
+.lujn a:hover {
+    text-decoration:underline
+}
