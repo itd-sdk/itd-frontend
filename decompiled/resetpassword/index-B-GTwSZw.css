@@ -1,0 +1,145 @@
+.lGhP {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:20px
+}
+.p4Gl {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:358px;
+    max-width:100%
+}
+.QYrP {
+    font-size:32px;
+    font-weight:700;
+    color:var(--text-primary);
+    margin-bottom:48px
+}
+.n6Is {
+    width:100%
+}
+.lhVs {
+    margin-bottom:48px
+}
+.Jflm {
+    font-size:24px;
+    font-weight:500;
+    color:var(--text-primary);
+    margin:0 0 8px
+}
+.Wvsx {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-secondary);
+    margin:0
+}
+.fdZo {
+    width:100%;
+    padding:12px 16px;
+    margin-bottom:24px;
+    background:#ef44441a;
+    border:1px solid rgba(239,68,68,.3);
+    border-radius:12px;
+    color:#ef4444;
+    font-size:14px;
+    text-align:center
+}
+.bSPM {
+    display:flex;
+    flex-direction:column;
+    gap:16px
+}
+.D7W1 {
+    display:flex;
+    flex-direction:column;
+    gap:12px
+}
+.F9js {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-primary)
+}
+.t5Yf {
+    position:relative;
+    width:100%
+}
+.t5Yf .HSV7 {
+    padding-right:48px
+}
+.HSV7 {
+    width:100%;
+    padding:16px;
+    background:transparent;
+    border:1px solid var(--border-color);
+    border-radius:16px;
+    font-size:16px;
+    font-family:inherit;
+    color:var(--text-primary);
+    outline:none;
+    transition:border-color .2s ease;
+    box-sizing:border-box
+}
+.HSV7::placeholder {
+    color:var(--text-secondary)
+}
+.HSV7:focus {
+    border-color:#fff6
+}
+:root .HSV7:focus {
+    border-color:#0006
+}
+[data-theme=dark] .HSV7:focus {
+    border-color:#fff6
+}
+.JAFJ {
+    border-color:#ef4444!important
+}
+.p3EM {
+    font-size:13px;
+    color:#ef4444;
+    margin-top:-4px
+}
+.Jntv {
+    font-size:13px;
+    color:var(--text-secondary);
+    margin-top:-4px
+}
+.ObWZ {
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    background:transparent;
+    border:none;
+    color:var(--text-secondary);
+    cursor:pointer;
+    transition:color .2s ease
+}
+.ObWZ:hover {
+    color:var(--text-primary)
+}
+.dI02 {
+    margin-top:36px
+}
+.qjJF {
+    margin-top:18px;
+    font-size:14px;
+    color:var(--text-secondary);
+    text-align:center
+}
+.qjJF a {
+    color:var(--accent-primary);
+    text-decoration:none;
+    font-weight:500
+}
+.qjJF a:hover {
+    text-decoration:underline
+}
