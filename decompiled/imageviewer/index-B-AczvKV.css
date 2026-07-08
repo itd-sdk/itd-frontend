@@ -1,0 +1,150 @@
+.SR3s {
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    touch-action:none;
+    -webkit-user-select:none;
+    user-select:none
+}
+.SR3s.EKO7 .knXB,.SR3s.EKO7 .Mst9,.SR3s.EKO7 .aeYt,.SR3s.eCzc .knXB,.SR3s.eCzc .Mst9,.SR3s.eCzc .aeYt {
+    overflow:visible
+}
+.SR3s.EKO7 .YMnP:not([data-active-slide]),.SR3s.EKO7 .aeYt:not([data-active-slide]),.SR3s.eCzc .YMnP:not([data-active-slide]),.SR3s.eCzc .aeYt:not([data-active-slide]) {
+    visibility:hidden
+}
+.SR3s.eCzc {
+    pointer-events:none
+}
+.SR3s.eCzc .mWRW,.SR3s.eCzc .f2bx,.SR3s.eCzc .TiCn {
+    opacity:0;
+    transition:opacity .28s cubic-bezier(.32,.72,0,1);
+    animation:none
+}
+.mWRW {
+    position:absolute;
+    inset:0;
+    background:#000000eb;
+    pointer-events:none;
+    animation:NUCm .28s cubic-bezier(.32,.72,0,1);
+    opacity:var(--opacity, 1);
+    transition:var(--opacity-transition, none)
+}
+@keyframes NUCm {
+    0% {
+    opacity:0
+}
+
+}
+.knXB {
+    position:relative;
+    overflow:hidden;
+    cursor:grab
+}
+.knXB:active {
+    cursor:grabbing
+}
+.XhWk {
+    display:flex;
+    align-items:center;
+    height:100%
+}
+.YMnP {
+    flex-shrink:0
+}
+.YMnP img {
+    display:block;
+    pointer-events:none;
+    object-fit:contain
+}
+.Mst9 {
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden
+}
+.fJuL {
+    display:flex;
+    width:100%;
+    height:100%
+}
+.aeYt {
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    overflow:hidden
+}
+.aeYt img {
+    display:block;
+    pointer-events:none;
+    will-change:transform
+}
+.TiCn {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+    z-index:5
+}
+.TiCn svg {
+    opacity:.6;
+    transition:opacity .2s,transform .2s
+}
+.TiCn:hover svg {
+    opacity:1;
+    transform:scale(1.2)
+}
+.TiCn:disabled {
+    cursor:default
+}
+.TiCn:disabled svg {
+    opacity:.2
+}
+.TiCn:disabled:hover svg {
+    opacity:.2;
+    transform:none
+}
+.rOhM {
+    left:0
+}
+.RIBx {
+    right:0
+}
+.f2bx {
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translate(-50%);
+    display:flex;
+    gap:8px
+}
+.yo8F {
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#fff6;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    transition:background .2s,transform .2s
+}
+.yo8F:hover {
+    background:#fff9
+}
+.yo8F.WtBJ {
+    background:#fff;
+    transform:scale(1.2)
+}

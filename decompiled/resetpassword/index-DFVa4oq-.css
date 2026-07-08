@@ -1,0 +1,145 @@
+.N4Hi {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:20px
+}
+.jpCO {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:358px;
+    max-width:100%
+}
+.Naqr {
+    font-size:32px;
+    font-weight:700;
+    color:var(--text-primary);
+    margin-bottom:48px
+}
+.ixZ8 {
+    width:100%
+}
+.Ymcv {
+    margin-bottom:48px
+}
+.ZK15 {
+    font-size:24px;
+    font-weight:500;
+    color:var(--text-primary);
+    margin:0 0 8px
+}
+.rEFA {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-secondary);
+    margin:0
+}
+.KCS6 {
+    width:100%;
+    padding:12px 16px;
+    margin-bottom:24px;
+    background:#ef44441a;
+    border:1px solid rgba(239,68,68,.3);
+    border-radius:12px;
+    color:#ef4444;
+    font-size:14px;
+    text-align:center
+}
+.BwMB {
+    display:flex;
+    flex-direction:column;
+    gap:16px
+}
+.Q8Jp {
+    display:flex;
+    flex-direction:column;
+    gap:12px
+}
+.iE8X {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-primary)
+}
+.Xc8v {
+    position:relative;
+    width:100%
+}
+.Xc8v .gqoQ {
+    padding-right:48px
+}
+.gqoQ {
+    width:100%;
+    padding:16px;
+    background:transparent;
+    border:1px solid var(--border-color);
+    border-radius:16px;
+    font-size:16px;
+    font-family:inherit;
+    color:var(--text-primary);
+    outline:none;
+    transition:border-color .2s ease;
+    box-sizing:border-box
+}
+.gqoQ::placeholder {
+    color:var(--text-secondary)
+}
+.gqoQ:focus {
+    border-color:#fff6
+}
+:root .gqoQ:focus {
+    border-color:#0006
+}
+[data-theme=dark] .gqoQ:focus {
+    border-color:#fff6
+}
+.WqO2 {
+    border-color:#ef4444!important
+}
+.DBG6 {
+    font-size:13px;
+    color:#ef4444;
+    margin-top:-4px
+}
+.Ic8t {
+    font-size:13px;
+    color:var(--text-secondary);
+    margin-top:-4px
+}
+.IaES {
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    background:transparent;
+    border:none;
+    color:var(--text-secondary);
+    cursor:pointer;
+    transition:color .2s ease
+}
+.IaES:hover {
+    color:var(--text-primary)
+}
+.OJ1p {
+    margin-top:36px
+}
+.mTbv {
+    margin-top:18px;
+    font-size:14px;
+    color:var(--text-secondary);
+    text-align:center
+}
+.mTbv a {
+    color:var(--accent-primary);
+    text-decoration:none;
+    font-weight:500
+}
+.mTbv a:hover {
+    text-decoration:underline
+}
