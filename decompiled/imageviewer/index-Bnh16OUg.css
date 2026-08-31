@@ -1,0 +1,226 @@
+@charset "UTF-8";
+    .tGCA {
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-user-select:none;
+    user-select:none
+}
+.tGCA.EYz5 .Lx1R,.tGCA.EYz5 .jE6z,.tGCA.EYz5 .PZig,.tGCA.IbcQ .Lx1R,.tGCA.IbcQ .jE6z,.tGCA.IbcQ .PZig {
+    overflow:visible
+}
+.tGCA.EYz5 .wrIP:not([data-active-slide]),.tGCA.EYz5 .PZig:not([data-active-slide]),.tGCA.IbcQ .wrIP:not([data-active-slide]),.tGCA.IbcQ .PZig:not([data-active-slide]) {
+    visibility:hidden
+}
+.tGCA.IbcQ .ODuV,.tGCA.IbcQ .ziXG,.tGCA.IbcQ .Lx1R,.tGCA.IbcQ .jE6z {
+    pointer-events:none
+}
+.tGCA.IbcQ .Si3Q,.tGCA.IbcQ .ziXG,.tGCA.IbcQ .ODuV {
+    opacity:0;
+    transition:opacity .28s cubic-bezier(.32,.72,0,1);
+    animation:none
+}
+.Si3Q {
+    position:absolute;
+    inset:0;
+    background:#000000eb;
+    pointer-events:none;
+    animation:f2lh .28s cubic-bezier(.32,.72,0,1);
+    opacity:var(--opacity, 1);
+    transition:var(--opacity-transition, none)
+}
+@keyframes f2lh {
+    0% {
+    opacity:0
+}
+
+}
+.Lx1R {
+    position:relative;
+    overflow:hidden;
+    cursor:grab;
+    touch-action:none
+}
+.Lx1R:active {
+    cursor:grabbing
+}
+.rvwG {
+    cursor:move
+}
+.guid {
+    display:flex;
+    align-items:center;
+    height:100%
+}
+.wrIP {
+    flex-shrink:0
+}
+.wrIP img {
+    display:block;
+    object-fit:contain
+}
+.jE6z {
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    touch-action:none
+}
+.Ho4c {
+    display:flex;
+    width:100%;
+    height:100%
+}
+.PZig {
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    overflow:hidden
+}
+.PZig img {
+    display:block;
+    pointer-events:none;
+    will-change:transform
+}
+.ODuV {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+    z-index:5
+}
+.ODuV svg {
+    opacity:.6;
+    transition:opacity .2s,transform .2s
+}
+.ODuV:hover svg {
+    opacity:1;
+    transform:scale(1.2)
+}
+.ODuV:disabled {
+    cursor:default
+}
+.ODuV:disabled svg {
+    opacity:.2
+}
+.ODuV:disabled:hover svg {
+    opacity:.2;
+    transform:none
+}
+.UBxE {
+    left:0
+}
+.N6rI {
+    right:0
+}
+.ziXG {
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translate(-50%);
+    display:flex;
+    gap:8px
+}
+.Waz4 {
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#fff6;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    transition:background .2s,transform .2s
+}
+.Waz4:hover {
+    background:#fff9
+}
+.Waz4.dGwp {
+    background:#fff;
+    transform:scale(1.2)
+}
+.X97x {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:6;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    padding:16px;
+    overflow-x:auto;
+    touch-action:pan-x;
+    overscroll-behavior-x:contain;
+    scrollbar-width:none;
+    background:linear-gradient(to top,rgba(0,0,0,.55),transparent);
+    animation:NBMC .28s cubic-bezier(.32,.72,0,1) both
+}
+.X97x::-webkit-scrollbar {
+    display:none
+}
+.wz72 {
+    animation:SvsA .22s cubic-bezier(.32,.72,0,1) both
+}
+@keyframes NBMC {
+    0% {
+    transform:translateY(100%);
+    opacity:0
+}
+
+}
+@keyframes SvsA {
+    to {
+    transform:translateY(100%);
+    opacity:0
+}
+
+}
+.dIez {
+    flex:0 0 auto;
+    width:48px;
+    aspect-ratio:3/4;
+    padding:0;
+    border:none;
+    overflow:hidden;
+    border-radius:6px;
+    background:#ffffff1f;
+    cursor:pointer;
+    opacity:.5;
+    transition:opacity .2s ease,box-shadow .2s ease
+}
+.dIez:hover {
+    opacity:1
+}
+.CD1V {
+    opacity:1;
+    box-shadow:inset 0 0 0 2px #fff
+}
+.TtOD {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block
+}
+@media(prefers-reduced-motion:reduce) {
+    .Si3Q,.X97x,.wz72 {
+    animation:none
+}
+.Si3Q,.wrIP,.Lx1R,.guid,.jE6z,.Ho4c,.ODuV svg,.Waz4 {
+    transition:none!important
+}
+
+}
