@@ -1,0 +1,137 @@
+.DXkr {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:358px;
+    max-width:100%
+}
+.Hh82 {
+    font-size:32px;
+    font-weight:700;
+    color:var(--text-primary);
+    margin-bottom:48px
+}
+.lcAl {
+    width:100%
+}
+.NqLM {
+    margin-bottom:48px
+}
+.gaoe {
+    font-size:24px;
+    font-weight:500;
+    color:var(--text-primary);
+    margin:0 0 8px
+}
+.QkuL {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-secondary);
+    margin:0
+}
+.wzFX {
+    width:100%;
+    padding:12px 16px;
+    margin-bottom:24px;
+    background:#ef44441a;
+    border:1px solid rgba(239,68,68,.3);
+    border-radius:12px;
+    color:#ef4444;
+    font-size:14px;
+    text-align:center
+}
+.SnQa {
+    display:flex;
+    flex-direction:column;
+    gap:16px
+}
+.EfPY {
+    display:flex;
+    flex-direction:column;
+    gap:12px
+}
+.eSZg {
+    font-size:16px;
+    font-weight:400;
+    color:var(--text-primary)
+}
+.OVRj {
+    position:relative;
+    width:100%
+}
+.OVRj .A3h1 {
+    padding-right:48px
+}
+.A3h1 {
+    width:100%;
+    padding:16px;
+    background:transparent;
+    border:1px solid var(--border-color);
+    border-radius:16px;
+    font-size:16px;
+    font-family:inherit;
+    color:var(--text-primary);
+    outline:none;
+    transition:border-color .2s ease;
+    box-sizing:border-box
+}
+.A3h1::placeholder {
+    color:var(--text-secondary)
+}
+.A3h1:focus {
+    border-color:#fff6
+}
+:root .A3h1:focus {
+    border-color:#0006
+}
+[data-theme=dark] .A3h1:focus {
+    border-color:#fff6
+}
+.XbVU {
+    border-color:#ef4444!important
+}
+.AeFW {
+    font-size:13px;
+    color:#ef4444;
+    margin-top:-4px
+}
+.nroI {
+    font-size:13px;
+    color:var(--text-secondary);
+    margin-top:-4px
+}
+.EDgb {
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    background:transparent;
+    border:none;
+    color:var(--text-secondary);
+    cursor:pointer;
+    transition:color .2s ease
+}
+.EDgb:hover {
+    color:var(--text-primary)
+}
+.RnKK {
+    margin-top:36px
+}
+.sFK5 {
+    margin-top:18px;
+    font-size:14px;
+    color:var(--text-secondary);
+    text-align:center
+}
+.sFK5 a {
+    color:var(--accent-primary);
+    text-decoration:none;
+    font-weight:500
+}
+.sFK5 a:hover {
+    text-decoration:underline
+}

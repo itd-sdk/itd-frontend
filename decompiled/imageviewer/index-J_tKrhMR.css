@@ -1,0 +1,226 @@
+@charset "UTF-8";
+    .BsEn {
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-user-select:none;
+    user-select:none
+}
+.BsEn.TqE9 .T6UE,.BsEn.TqE9 .G97F,.BsEn.TqE9 .XsBk,.BsEn.MBpP .T6UE,.BsEn.MBpP .G97F,.BsEn.MBpP .XsBk {
+    overflow:visible
+}
+.BsEn.TqE9 .hu7U:not([data-active-slide]),.BsEn.TqE9 .XsBk:not([data-active-slide]),.BsEn.MBpP .hu7U:not([data-active-slide]),.BsEn.MBpP .XsBk:not([data-active-slide]) {
+    visibility:hidden
+}
+.BsEn.MBpP .NtR0,.BsEn.MBpP .tvYM,.BsEn.MBpP .T6UE,.BsEn.MBpP .G97F {
+    pointer-events:none
+}
+.BsEn.MBpP .k6AQ,.BsEn.MBpP .tvYM,.BsEn.MBpP .NtR0 {
+    opacity:0;
+    transition:opacity .28s cubic-bezier(.32,.72,0,1);
+    animation:none
+}
+.k6AQ {
+    position:absolute;
+    inset:0;
+    background:#000000eb;
+    pointer-events:none;
+    animation:qf1Z .28s cubic-bezier(.32,.72,0,1);
+    opacity:var(--opacity, 1);
+    transition:var(--opacity-transition, none)
+}
+@keyframes qf1Z {
+    0% {
+    opacity:0
+}
+
+}
+.T6UE {
+    position:relative;
+    overflow:hidden;
+    cursor:grab;
+    touch-action:none
+}
+.T6UE:active {
+    cursor:grabbing
+}
+.FjY7 {
+    cursor:move
+}
+.pUD4 {
+    display:flex;
+    align-items:center;
+    height:100%
+}
+.hu7U {
+    flex-shrink:0
+}
+.hu7U img {
+    display:block;
+    object-fit:contain
+}
+.G97F {
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    touch-action:none
+}
+.VtQt {
+    display:flex;
+    width:100%;
+    height:100%
+}
+.XsBk {
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+    overflow:hidden
+}
+.XsBk img {
+    display:block;
+    pointer-events:none;
+    will-change:transform
+}
+.NtR0 {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+    z-index:5
+}
+.NtR0 svg {
+    opacity:.6;
+    transition:opacity .2s,transform .2s
+}
+.NtR0:hover svg {
+    opacity:1;
+    transform:scale(1.2)
+}
+.NtR0:disabled {
+    cursor:default
+}
+.NtR0:disabled svg {
+    opacity:.2
+}
+.NtR0:disabled:hover svg {
+    opacity:.2;
+    transform:none
+}
+.fX57 {
+    left:0
+}
+.I7ou {
+    right:0
+}
+.tvYM {
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translate(-50%);
+    display:flex;
+    gap:8px
+}
+.j9Bp {
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#fff6;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    transition:background .2s,transform .2s
+}
+.j9Bp:hover {
+    background:#fff9
+}
+.j9Bp.mIF4 {
+    background:#fff;
+    transform:scale(1.2)
+}
+.cYXD {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:6;
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    padding:16px;
+    overflow-x:auto;
+    touch-action:pan-x;
+    overscroll-behavior-x:contain;
+    scrollbar-width:none;
+    background:linear-gradient(to top,rgba(0,0,0,.55),transparent);
+    animation:hJyk .28s cubic-bezier(.32,.72,0,1) both
+}
+.cYXD::-webkit-scrollbar {
+    display:none
+}
+.zsQF {
+    animation:AYhA .22s cubic-bezier(.32,.72,0,1) both
+}
+@keyframes hJyk {
+    0% {
+    transform:translateY(100%);
+    opacity:0
+}
+
+}
+@keyframes AYhA {
+    to {
+    transform:translateY(100%);
+    opacity:0
+}
+
+}
+.Nfux {
+    flex:0 0 auto;
+    width:48px;
+    aspect-ratio:3/4;
+    padding:0;
+    border:none;
+    overflow:hidden;
+    border-radius:6px;
+    background:#ffffff1f;
+    cursor:pointer;
+    opacity:.5;
+    transition:opacity .2s ease,box-shadow .2s ease
+}
+.Nfux:hover {
+    opacity:1
+}
+.jNak {
+    opacity:1;
+    box-shadow:inset 0 0 0 2px #fff
+}
+.pjmk {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block
+}
+@media(prefers-reduced-motion:reduce) {
+    .k6AQ,.cYXD,.zsQF {
+    animation:none
+}
+.k6AQ,.hu7U,.T6UE,.pUD4,.G97F,.VtQt,.NtR0 svg,.j9Bp {
+    transition:none!important
+}
+
+}
