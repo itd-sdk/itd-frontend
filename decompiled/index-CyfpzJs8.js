@@ -47,7 +47,7 @@ const l = {
 };
 
 const X = ({
-  label = "Код с почты",
+  label = "Код из Telegram",
   error,
   buttonText = "Продолжить",
   resendText = "Отправить код повторно",

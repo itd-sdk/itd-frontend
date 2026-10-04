@@ -94,7 +94,7 @@ export const Register = (a) => {
     o(null);
 
     if (!t.trim()) {
-      c("Введите email");
+      c("Введите ник в Telegram");
       return;
     }
 
@@ -114,7 +114,7 @@ export const Register = (a) => {
       o("Только латиница, цифры и знаки пунктуации");
       return;
     }
-    m(true);
+    S(undefined);
   };
 
   const S = q_1(
@@ -127,7 +127,7 @@ export const Register = (a) => {
         if (K_1(E)) {
           switch (E.code) {
             case aB.ENTITY_ALREADY_EXISTS: {
-              c("Этот email уже зарегистрирован");
+              c("Этот Telegram уже зарегистрирован");
               break;
             }
             case aB.ACCOUNT_EMAIL_DOMAIN_NOT_ALLOWED: {
@@ -183,7 +183,11 @@ export const Register = (a) => {
                       }),
                       u("p", {
                         className: r.subtitle,
-                        children: "Пожалуйста, введите ваши данные",
+                        children: [
+"Сначала откройте Telegram-бота ",
+u("a", { href: "https://t.me/openitd_bot", target: "_blank", rel: "noopener noreferrer", children: "@openitd_bot" }),
+" и нажмите «Старт» — туда придёт код подтверждения. Затем укажите ваш ник в Telegram и придумайте пароль.",
+],
                       }),
                     ],
                   }),
@@ -196,17 +200,18 @@ export const Register = (a) => {
                         children: [
                           u("label", {
                             className: r.label,
-                            children: "E-Mail",
+                            children: "Telegram",
                           }),
                           u("input", {
-                            type: "email",
+                            type: "text",
+                            autoComplete: "username",
                             className: `${r.input} ${h ? r.inputError : ""}`,
                             value: t,
                             onInput: (l) => {
                               b(l.target.value);
                               c(null);
                             },
-                            placeholder: "ilya@gmail.com",
+                            placeholder: "@username",
                             disabled: u,
                           }),
                           h &&

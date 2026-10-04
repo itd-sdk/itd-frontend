@@ -92,7 +92,7 @@ export const Login = (r) => {
     f(null);
 
     if (!a.trim()) {
-      t("Введите email");
+      t("Введите ник в Telegram");
       return;
     }
 
@@ -100,7 +100,7 @@ export const Login = (r) => {
       t("Введите пароль");
       return;
     }
-    p(true);
+    k(undefined);
   };
 
   const k = q_1(
@@ -117,7 +117,7 @@ export const Login = (r) => {
         if (K_1(d)) {
           switch (d.code) {
             case aB.ACCOUNT_INVALID_CREDENTIALS: {
-              t("Неверный email или пароль");
+              t("Неверный ник Telegram или пароль");
               break;
             }
             case aB.ACCOUNT_DEACTIVATED: {
@@ -174,7 +174,11 @@ export const Login = (r) => {
                       u("h1", { className: s.title, children: "Вход" }),
                       u("p", {
                         className: s.subtitle,
-                        children: "Пожалуйста, введите ваши данные",
+                        children: [
+"Введите ник в Telegram и пароль. Код для входа пришлёт бот ",
+u("a", { href: "https://t.me/openitd_bot", target: "_blank", rel: "noopener noreferrer", children: "@openitd_bot" }),
+".",
+],
                       }),
                     ],
                   }),
@@ -187,17 +191,18 @@ export const Login = (r) => {
                         children: [
                           u("label", {
                             className: s.label,
-                            children: "E-Mail",
+                            children: "Telegram",
                           }),
                           u("input", {
-                            type: "email",
+                            type: "text",
+                            autoComplete: "username",
                             className: `${s.input} ${m ? s.inputError : ""}`,
                             value: a,
                             onInput: (n) => {
                               h(n.target.value);
                               f(null);
                             },
-                            placeholder: "ilya@gmail.com",
+                            placeholder: "@username",
                             disabled: c,
                           }),
                           m &&

@@ -9939,7 +9939,7 @@ const hy = {
   [H.ACCOUNT_DEACTIVATED]: "Аккаунт деактивирован",
   [H.ACCOUNT_EMAIL_DOMAIN_NOT_ALLOWED]:
     "Почта этого домена не поддерживается",
-  [H.ACCOUNT_INVALID_CREDENTIALS]: "Неверный email или пароль",
+  [H.ACCOUNT_INVALID_CREDENTIALS]: "Неверный ник Telegram или пароль",
   [H.ACCOUNT_TEMPORARILY_LOCKED]:
     "Аккаунт временно заблокирован. Попробуйте позже",
   [H.ACCOUNT_CURRENT_PASSWORD_INCORRECT]: "Неверный текущий пароль",

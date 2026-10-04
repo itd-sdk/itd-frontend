@@ -100,11 +100,11 @@ export const ForgotPassword = (d) => {
     p(null);
 
     if (!l.trim()) {
-      p("Введите email");
+      p("Введите ник в Telegram");
       return;
     }
 
-    k(true);
+    X(undefined);
   };
 
   const X = q_1(
@@ -123,7 +123,7 @@ export const ForgotPassword = (d) => {
               break;
             }
             case aB.VALIDATION_ERROR: {
-              p("Введите корректный email");
+              p("Введите корректный ник Telegram");
               break;
             }
             case aB.ACCOUNT_EMAIL_DOMAIN_NOT_ALLOWED: {
@@ -288,7 +288,7 @@ export const ForgotPassword = (d) => {
                     }),
                     u("p", {
                       className: s.subtitle,
-                      children: "Введите ваш E-Mail для восстановления",
+                      children: "Введите ваш ник в Telegram — код придёт в бот @openitd_bot",
                     }),
                   ],
                 }),
@@ -298,16 +298,17 @@ export const ForgotPassword = (d) => {
                   children: u("div", {
                     className: s.inputGroup,
                     children: [
-                      u("label", { className: s.label, children: "E-Mail" }),
+                      u("label", { className: s.label, children: "Telegram" }),
                       u("input", {
-                        type: "email",
+                        type: "text",
+                        autoComplete: "username",
                         className: `${s.input} ${y ? s.inputError : ""}`,
                         value: l,
                         onInput: (t) => {
                           A(t.target.value);
                           p(null);
                         },
-                        placeholder: "ilya@gmail.com",
+                        placeholder: "@username",
                         disabled: m,
                       }),
                       y && u("span", { className: s.fieldError, children: y }),
@@ -342,7 +343,7 @@ export const ForgotPassword = (d) => {
                     u("h1", { className: s.title, children: "Введите код" }),
                     u("p", {
                       className: s.subtitle,
-                      children: ["Мы отправили шестизначный код на ", l],
+                      children: ["Мы отправили шестизначный код в Telegram-бот @openitd_bot для ", l],
                     }),
                   ],
                 }),
