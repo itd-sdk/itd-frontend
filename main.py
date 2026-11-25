@@ -170,7 +170,8 @@ for component_name, info in page_imports.items():
             file_dest[filename] = dest_dir
 
 # Chunks that no page lists (lazy modules like the chats route or messengerMediaApi) and whatever they import
-chunk_ref = re_compile(r'["`(]\./([\w.-]+\.(?:js|css))["`)]')
+# "./x.js" imports, "assets/x.css" in a chunk's own dependency map, "/assets/x.js" workers (new URL(...))
+chunk_ref = re_compile(r'["`(](?:\./|/?assets/)([\w.-]+\.(?:js|css))["`)]')
 saved = {basename(p) for p in glob_module.glob("raw/**/*", recursive=True) if not isdir(p)}
 pending = sorted((set(dep_files) | set(lazy_chunks)) - saved)
 for js in glob_module.glob("raw/**/*.js", recursive=True):
