@@ -1,14 +1,15 @@
 import glob as glob_module
 from collections import Counter
 from datetime import datetime
-from os import makedirs
+from os import environ, makedirs
 from os.path import basename, isdir
 from re import compile as re_compile
 from re import findall, search
 from re import sub as re_sub
 from shutil import move, rmtree
 from subprocess import PIPE, run
-from urllib.parse import quote
+from sys import argv
+from urllib.parse import quote, urljoin, urlparse
 
 from bs4 import BeautifulSoup
 from requests import Session
@@ -61,50 +62,69 @@ def clear_dir(path):
     makedirs(path)
 
 
-print("clear old files")
-clear_dir("raw")
-clear_dir("decompiled")
+ORIGIN = environ.get("ITD_ORIGIN", "https://xn--d1ah4a.com").rstrip("/")
+FORCE = "--force" in argv
 
-print("find base script")
-possible_base_scripts = BeautifulSoup(
-    get("https://xn--d1ah4a.com").text, "html.parser"
-).find_all("script")
-base_script = None
+print("find scripts")
+scripts = {}  # file name -> content, every <script src> of the page
+for script in BeautifulSoup(get(ORIGIN).text, "html.parser").find_all("script"):
+    src = script.attrs.get("src")
+    if not src:
+        continue
+    name = basename(urlparse(str(src)).path)
+    print(f"found: {src}", end="")
+    scripts[name] = get(urljoin(f"{ORIGIN}/", str(src))).text
+    print(f", loaded {len(scripts[name].splitlines())} lines")
+assert scripts, "No scripts found on the page"
 
-for script in possible_base_scripts:
-    if script.attrs.get("src"):
-        src = script.attrs["src"]
-        print(f"found: {src}", end="")
-        base_script = get(f"https://xn--d1ah4a.com{src}").text
-        print(f", loaded {len(base_script.splitlines())} lines")
-        with open(f"raw/{basename(str(src))}", "w", encoding="utf-8") as fl:
-            fl.write(base_script)
-assert base_script, "Base script not found"
+# The page has more than one script now (e.g. checkpoint-observe-*.js): the main bundle is the one with the
+# dependency map of the lazy chunks, otherwise the biggest one
+base_script_name = next((n for n, c in scripts.items() if "__vite__mapDeps" in c), None) or max(
+    scripts, key=lambda n: len(scripts[n])
+)
+base_script = scripts[base_script_name]
+print(f"main bundle: {base_script_name}")
 
-# Parse __vite__mapDeps file list
-deps_match = search(r"m\.f=\[(.+?)\]\)", base_script)
-assert deps_match, "__vite__mapDeps not found"
-dep_files = findall(r'"assets/([^"]+)"', deps_match.group(1))
+# Parse __vite__mapDeps file list: const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/..."])))=>...
+deps_match = search(r"(\w+)\.f\|\|\(\1\.f=\[(.*?)\]\)", base_script)
+assert deps_match, f"__vite__mapDeps not found in {base_script_name}"
+dep_files = findall(r'"assets/([^"]+)"', deps_match.group(2))
 print(
     f"found {len(dep_files)} dep files ({sum(1 for f in dep_files if f.endswith('.css'))} css, {sum(1 for f in dep_files if f.endswith('.js'))} js)"
 )
 
-# Parse lazy page imports
+# Parse lazy page imports: import("./x.js"),__vite__mapDeps([1,2]) or import("./x.js"),[] ... .then(e=>({default:e.Page}))
 page_imports = {}
-
 for js_file, indices_str, component_name in findall(
-    r'import\("\.\/([^"]+)"\),__vite__mapDeps\(\[([^\]]+)\]\)\)\.then\(e=>\(\{default:e\.(\w+)\}\)',
-    base_script
+    r'import\("\./([^"]+)"\),(?:__vite__mapDeps\(\[([^\]]*)\]\)|\[\])\)\.then\(\w+=>\(\{default:\w+\.(\w+)\}\)\)',
+    base_script,
 ):
     indices = [int(x.strip()) for x in indices_str.split(",") if x.strip()]
     page_imports[component_name] = {"js_file": js_file, "dep_indices": indices}
-
-for js_file, component_name in findall(
-    r'import\("\.\/([^"]+)"\),\[\]\)\.then\(e=>\(\{default:e\.(\w+)\}\)', base_script
-):
-    page_imports[component_name] = {"js_file": js_file, "dep_indices": []}
+assert page_imports, f"No lazy page imports found in {base_script_name}"
 
 print(f"found {len(page_imports)} pages: {', '.join(page_imports.keys())}")
+
+# File names carry content hashes: the same set of names as in raw/ means nothing changed on the site
+expected = set(scripts) | set(dep_files) | {info["js_file"] for info in page_imports.values()}
+current = {basename(p) for p in glob_module.glob("raw/**/*", recursive=True) if not isdir(p)}
+if expected == current and glob_module.glob("decompiled/**/*.js", recursive=True) and not FORCE:
+    print("no changes: file hashes are the same as in raw/ (run with --force to update anyway)")
+    exit(0)
+if current:
+    added, removed = sorted(expected - current), sorted(current - expected)
+    print(f"changed files: +{len(added)} -{len(removed)}")
+    for name in added:
+        print(f"  + {name}")
+    for name in removed:
+        print(f"  - {name}")
+
+print("clear old files")
+clear_dir("raw")
+clear_dir("decompiled")
+for name, content in scripts.items():
+    with open(f"raw/{name}", "w", encoding="utf-8") as fl:
+        fl.write(content)
 
 # Files used in 2+ pages go to raw/ root
 dep_usage = Counter()
@@ -126,7 +146,7 @@ for component_name, info in page_imports.items():
 
     js_file = info["js_file"]
     print(f"  [{component_name}] {js_file}                    ", end="\r")
-    content = get(f"https://xn--d1ah4a.com/assets/{js_file}").text
+    content = get(f"{ORIGIN}/assets/{js_file}").text
     with open(f"{page_dir}/{js_file}", "w", encoding="utf-8") as fl:
         fl.write(content)
     file_dest[js_file] = page_dir
@@ -139,7 +159,7 @@ for component_name, info in page_imports.items():
         if dest_path not in downloaded:
             downloaded.add(dest_path)
             print(f"  [{component_name}] {filename}                    ", end="\r")
-            content = get(f"https://xn--d1ah4a.com/assets/{filename}").text
+            content = get(f"{ORIGIN}/assets/{filename}").text
             with open(dest_path, "w", encoding="utf-8") as fl:
                 fl.write(content)
 
@@ -149,8 +169,8 @@ for component_name, info in page_imports.items():
 print("all files downloaded              ")
 
 # --- Decompile all JS in one wakaru call ---
-base_script_name = basename(str(src))
-file_dest[base_script_name] = "raw"  # ensure base script gets moved to decompiled/
+for name in scripts:
+    file_dest[name] = "raw"  # ensure the page scripts get moved to decompiled/
 all_js_files = [
     f.replace("\\", "/") for f in glob_module.glob("raw/**/*.js", recursive=True)
 ]
