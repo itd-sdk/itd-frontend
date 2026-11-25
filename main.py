@@ -102,22 +102,25 @@ for js_file, indices_str, component_name in findall(
     indices = [int(x.strip()) for x in indices_str.split(",") if x.strip()]
     page_imports[component_name] = {"js_file": js_file, "dep_indices": indices}
 assert page_imports, f"No lazy page imports found in {base_script_name}"
+# every dynamic import of the main bundle, pages or not
+lazy_chunks = set(findall(r'import\("\./([^"]+)"\)', base_script))
+# service workers live at the site root, not in /assets (e.g. /messenger-sw.js)
+workers = set(findall(r'serviceWorker\s*\.register\(\s*"/([\w.-]+\.js)"', base_script))
 
 print(f"found {len(page_imports)} pages: {', '.join(page_imports.keys())}")
 
 # File names carry content hashes: the same set of names as in raw/ means nothing changed on the site
-expected = set(scripts) | set(dep_files) | {info["js_file"] for info in page_imports.values()}
+expected = set(scripts) | set(dep_files) | lazy_chunks | workers | {info["js_file"] for info in page_imports.values()}
 current = {basename(p) for p in glob_module.glob("raw/**/*", recursive=True) if not isdir(p)}
-if expected == current and glob_module.glob("decompiled/**/*.js", recursive=True) and not FORCE:
+# (raw/ may hold more: chunks imported only by other chunks; a change there renames their importers too)
+if expected <= current and glob_module.glob("decompiled/**/*.js", recursive=True) and not FORCE:
     print("no changes: file hashes are the same as in raw/ (run with --force to update anyway)")
     exit(0)
 if current:
-    added, removed = sorted(expected - current), sorted(current - expected)
-    print(f"changed files: +{len(added)} -{len(removed)}")
+    added = sorted(expected - current)
+    print(f"changed files: {len(added)} new")
     for name in added:
         print(f"  + {name}")
-    for name in removed:
-        print(f"  - {name}")
 
 print("clear old files")
 clear_dir("raw")
@@ -165,6 +168,39 @@ for component_name, info in page_imports.items():
 
         if filename not in file_dest:
             file_dest[filename] = dest_dir
+
+# Chunks that no page lists (lazy modules like the chats route or messengerMediaApi) and whatever they import
+chunk_ref = re_compile(r'["`(]\./([\w.-]+\.(?:js|css))["`)]')
+saved = {basename(p) for p in glob_module.glob("raw/**/*", recursive=True) if not isdir(p)}
+pending = sorted((set(dep_files) | set(lazy_chunks)) - saved)
+for js in glob_module.glob("raw/**/*.js", recursive=True):
+    with open(js, "r", encoding="utf-8") as fl:
+        pending += [n for n in chunk_ref.findall(fl.read()) if n not in saved]
+for name in sorted(workers):
+    resp = get(f"{ORIGIN}/{name}")
+    if resp.status_code == 200:
+        with open(f"raw/{name}", "w", encoding="utf-8") as fl:
+            fl.write(resp.text)
+        saved.add(name)
+        file_dest[name] = "raw"
+        pending += [n for n in chunk_ref.findall(resp.text) if n not in saved]
+    else:
+        print(f"  warning: /{name}: HTTP {resp.status_code}")
+while pending:
+    filename = pending.pop()
+    if filename in saved:
+        continue
+    saved.add(filename)
+    print(f"  [chunks] {filename}                    ", end="\r")
+    resp = get(f"{ORIGIN}/assets/{filename}")
+    if resp.status_code != 200:
+        print(f"  warning: {filename}: HTTP {resp.status_code}")
+        continue
+    with open(f"raw/{filename}", "w", encoding="utf-8") as fl:
+        fl.write(resp.text)
+    file_dest[filename] = "raw"
+    if filename.endswith(".js"):
+        pending += [n for n in chunk_ref.findall(resp.text) if n not in saved]
 
 print("all files downloaded              ")
 
